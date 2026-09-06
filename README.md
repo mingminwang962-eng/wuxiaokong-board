@@ -7,10 +7,12 @@
 | 文件 | 作用 |
 |-|-|
 | `board.json` | 看板数据正本（48 任务 / 8 Wave / WG0–WG7）。**不要手改状态**，由 sync 脚本从 GitHub 同步 |
-| `sync_board.py` | 从 GitHub 拉取 Issue/PR 真实状态 → 更新 board.json → 重建页面 → 可选重新发布 |
+| `sync_board.py` | 从 GitHub 拉取 Issue/PR 真实状态 → 更新 board.json → 重建页面 → `--publish` 时 git push 刷新公网链接 |
 | `render_board.py` | 把 board.json 渲染成 `dist/index.html`（公网页面） |
+| `index.html` | 仓库根的发布页（GitHub Pages 入口，由 sync --publish 自动从 dist 复制） |
 | `dist/index.html` | 生成的公网看板（自包含单文件，无外部依赖） |
-| `publish.json` | 妙搭发布配置（app_id），首次部署后生成 |
+
+公网地址：https://mingminwang962-eng.github.io/wuxiaokong-board/ （本仓库即 GitHub Pages 站点，push 后约 1 分钟刷新）
 
 ## 日常工作流
 

@@ -20,7 +20,6 @@ ROOT = pathlib.Path(__file__).parent
 BOARD = ROOT / "board.json"
 REPO = "mingminwang962-eng/ip-system-runtime"
 WIDGET_BOARD = pathlib.Path("/Users/minmin/Library/Application Support/kimi-desktop/daimon-share/daimon/agents/main/blueprint/widgets/widget_c4d64365-1961-474e-ade1-617a82e3cbfb/workspace/board.json")
-PUBLISH_CONF = ROOT / "publish.json"   # {"app_id": "app_xxx", "dist": "dist"}
 
 # GitHub 登录名 -> 看板显示名。夏天的 GitHub 用户名确定后填到这里。
 ASSIGNEE_MAP = {
@@ -164,12 +163,20 @@ def main():
     subprocess.run([sys.executable, str(ROOT / "render_board.py")], check=True)
     print("board.json 已更新，公网页面已重建。")
 
-    if "--publish" in sys.argv and PUBLISH_CONF.exists():
-        conf = json.loads(PUBLISH_CONF.read_text(encoding="utf-8"))
-        r = subprocess.run(["lark-cli", "apps", "+html-publish", "--app-id", conf["app_id"],
-                            "--path", str(ROOT / conf.get("dist", "dist"))],
-                           capture_output=True, text=True, cwd=ROOT)
-        print(r.stdout.strip() or r.stderr.strip())
+    if "--publish" in sys.argv:
+        # 公网看板 = 本目录的 GitHub Pages（仓库根 index.html），push 即刷新
+        import shutil
+        shutil.copy(ROOT / "dist" / "index.html", ROOT / "index.html")
+        subprocess.run(["git", "add", "-A"], cwd=ROOT, check=True)
+        r = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT)
+        if r.returncode != 0:
+            subprocess.run(["git", "-c", "user.name=minmin", "-c",
+                            "user.email=mingminwang962-eng@users.noreply.github.com",
+                            "commit", "-qm", f"sync: {now} 看板同步"], cwd=ROOT, check=True)
+            subprocess.run(["git", "push", "-q"], cwd=ROOT, check=True)
+            print("已发布 → https://mingminwang962-eng.github.io/wuxiaokong-board/")
+        else:
+            print("页面无变化，跳过发布。")
 
 if __name__ == "__main__":
     main()
