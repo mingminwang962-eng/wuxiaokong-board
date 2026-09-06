@@ -4,12 +4,13 @@
     "planSource": "DoubaoWork/chats/2026-09-06/new-chat-1",
     "boardVersion": "1.0.0",
     "updatedAt": "2026-09-06",
-    "updatedBy": "Kimi（初始化）",
+    "updatedBy": "敏敏（清空预设分工）",
     "currentWave": 0,
     "baselineSha": "8acd3fc554f6f35a3add119980869bbdb857faa8（审计基线，待 T00.1 重新冻结）",
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "protocol": "MAINTENANCE.md",
-    "timeFields": "claimedAt=认领(assigned事件) startedAt=首个提交 doneAt=完成(closed事件) blockedAt=进入阻塞；均由 sync_board.py 从 GitHub 自动填充"
+    "timeFields": "claimedAt=认领(assigned事件) startedAt=首个提交 doneAt=完成(closed事件) blockedAt=进入阻塞；均由 sync_board.py 从 GitHub 自动填充",
+    "syncedAt": "2026-09-06 18:53"
   },
   "owners": [
     "敏敏",
@@ -136,8 +137,8 @@
       "s": "S10",
       "p": "P110/P115/P165/P175",
       "deps": [],
-      "owner": "敏敏",
-      "reviewer": "夏天",
+      "owner": null,
+      "reviewer": null,
       "status": "READY",
       "blocker": "",
       "critical": true,
@@ -156,8 +157,8 @@
       "s": "S11/S10",
       "p": "P001–P190 元数据",
       "deps": [],
-      "owner": "敏敏",
-      "reviewer": "夏天",
+      "owner": null,
+      "reviewer": null,
       "status": "READY",
       "blocker": "",
       "critical": false,
@@ -178,8 +179,8 @@
       "deps": [
         "T00.1"
       ],
-      "owner": "敏敏",
-      "reviewer": "夏天",
+      "owner": null,
+      "reviewer": null,
       "status": "BLOCKED",
       "blocker": "等 T00.1 冻结基线",
       "critical": true,
@@ -200,8 +201,8 @@
       "deps": [
         "T00.1"
       ],
-      "owner": "夏天",
-      "reviewer": "敏敏",
+      "owner": null,
+      "reviewer": null,
       "status": "BLOCKED",
       "blocker": "等 T00.1 冻结基线",
       "critical": true,
@@ -222,8 +223,8 @@
       "deps": [
         "T00.1"
       ],
-      "owner": "夏天",
-      "reviewer": "敏敏",
+      "owner": null,
+      "reviewer": null,
       "status": "BLOCKED",
       "blocker": "等 T00.1 冻结基线",
       "critical": false,
@@ -244,8 +245,8 @@
       "deps": [
         "T00.1"
       ],
-      "owner": "夏天",
-      "reviewer": "敏敏",
+      "owner": null,
+      "reviewer": null,
       "status": "BLOCKED",
       "blocker": "等 T00.1 及其余合同输出",
       "critical": true,
@@ -1214,6 +1215,11 @@
       "at": "2026-09-06",
       "by": "Kimi",
       "what": "看板初始化：按 v1.2 录入 8 Wave / 48 父工作包 / WG0–WG7；T00.1、T00.2 为首批 READY；Wave 0 初始认领 敏敏(T00.1/2/3)、夏天(T00.4/5/6)，之后按 Ready Queue 轮换"
+    },
+    {
+      "at": "2026-09-06 18:53",
+      "by": "敏敏",
+      "what": "清空全部预填的认领人/复核人：此前 Wave 0 的敏/夏标注是无效预设，分工只以 GitHub Issue 真实 assignee 为准"
     }
   ]
 }
