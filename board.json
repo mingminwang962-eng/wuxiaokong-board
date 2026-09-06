@@ -2,15 +2,20 @@
   "meta": {
     "plan": "悟小空系统修复实施计划与项目作战图 v1.2（夏天确认版）",
     "planSource": "DoubaoWork/chats/2026-09-06/new-chat-1",
-    "boardVersion": "1.0.0",
-    "updatedAt": "2026-09-06",
-    "updatedBy": "敏敏（清空预设分工）",
-    "currentWave": 0,
+    "boardVersion": "2.0.0",
     "baselineSha": "8acd3fc554f6f35a3add119980869bbdb857faa8（审计基线，待 T00.1 重新冻结）",
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
-    "protocol": "MAINTENANCE.md",
-    "timeFields": "claimedAt=认领(assigned事件) startedAt=首个提交 doneAt=完成(closed事件) blockedAt=进入阻塞；均由 sync_board.py 从 GitHub 自动填充",
-    "syncedAt": "2026-09-06 18:53"
+    "updatedAt": "2026-09-06",
+    "updatedBy": "sync_board v2（GitHub 事实重建）",
+    "syncedAt": "2026-09-06 23:30",
+    "currentWave": 0,
+    "generatedFrom": {
+      "repo": "mingminwang962-eng/ip-system-runtime",
+      "branch": "minmin",
+      "headSha": "f37948fac9c5fd99c5aa0ad5fd31531afc7bb8ae",
+      "issues": 0,
+      "prs": 0
+    }
   },
   "owners": [
     "敏敏",
@@ -82,50 +87,58 @@
     {
       "id": "WG0",
       "name": "合同可实施",
+      "rule": "每个 T 有 P/REQ/TECH/S/WP 映射、写面、验收证据目录和回滚点；关键合同有版本/hash；P0 失败样本可重放",
       "status": "PENDING",
-      "rule": "每个 T 有 P/REQ/TECH/S/WP 映射、写面、验收证据目录和回滚点；关键合同有版本/hash；P0 失败样本可重放"
+      "note": ""
     },
     {
       "id": "WG1",
       "name": "攻击面受控",
+      "rule": "P001/P003/P004 原攻击用例转绿；跨租户不外呼不写入；密钥扫描为零；Cookie/Origin 规则有 E3/E4 证据",
       "status": "PENDING",
-      "rule": "P001/P003/P004 原攻击用例转绿；跨租户不外呼不写入；密钥扫描为零；Cookie/Origin 规则有 E3/E4 证据"
+      "note": ""
     },
     {
       "id": "WG2",
       "name": "底座合同通过",
+      "rule": "空回执不能完成；重放无重复扣费；同 key 异内容 409；迟到响应只审计；重启可接管；ask_user/replan/fail 不按成功结算",
       "status": "PENDING",
-      "rule": "空回执不能完成；重放无重复扣费；同 key 异内容 409；迟到响应只审计；重启可接管；ask_user/replan/fail 不按成功结算"
+      "note": ""
     },
     {
       "id": "WG3",
       "name": "领域闭环",
+      "rule": "代表旅程可生成正式成果、幂等保存并回读；五入口不错绑；排期→发布→复盘可追踪；答案可定位 chunk/source",
       "status": "PENDING",
-      "rule": "代表旅程可生成正式成果、幂等保存并回读；五入口不错绑；排期→发布→复盘可追踪；答案可定位 chunk/source"
+      "note": ""
     },
     {
       "id": "WG4",
       "name": "页面合同通过",
+      "rule": "37 正式/3 跳转/1 预览身份正确；零死链缺资源；8 个 dark 页回归；401/403/409/429/5xx 一致；核心旅程双端可完成",
       "status": "PENDING",
-      "rule": "37 正式/3 跳转/1 预览身份正确；零死链缺资源；8 个 dark 页回归；401/403/409/429/5xx 一致；核心旅程双端可完成"
+      "note": ""
     },
     {
       "id": "WG5",
       "name": "逐请求对账",
+      "rule": "重复/失败/取消/超时不多扣漏退；模型与成本可追溯；manual_review 闭环；视频五类失败无模拟成功",
       "status": "PENDING",
-      "rule": "重复/失败/取消/超时不多扣漏退；模型与成本可追溯；manual_review 闭环；视频五类失败无模拟成功"
+      "note": ""
     },
     {
       "id": "WG6",
       "name": "候选对象唯一",
+      "rule": "commit/tree、Bundle SHA、migration ledger、registry hashes、asset manifest、环境和回滚对象同一；恢复演练通过",
       "status": "PENDING",
-      "rule": "commit/tree、Bundle SHA、migration ledger、registry hashes、asset manifest、环境和回滚对象同一；恢复演练通过"
+      "note": ""
     },
     {
       "id": "WG7",
       "name": "独立验收通过",
+      "rule": "6 个 P0 与适用 P1 达证据门；无阻断 NOT_RUN；回滚有效；观察无未解释异常；逐 P 关闭证据齐全",
       "status": "PENDING",
-      "rule": "6 个 P0 与适用 P1 达证据门；无阻断 NOT_RUN；回滚有效；观察无未解释异常；逐 P 关闭证据齐全"
+      "note": ""
     }
   ],
   "tasks": [
@@ -137,17 +150,18 @@
       "s": "S10",
       "p": "P110/P115/P165/P175",
       "deps": [],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "READY",
       "blocker": "",
-      "critical": true,
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T00.2",
@@ -157,17 +171,18 @@
       "s": "S11/S10",
       "p": "P001–P190 元数据",
       "deps": [],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "READY",
       "blocker": "",
-      "critical": false,
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T00.3",
@@ -179,17 +194,18 @@
       "deps": [
         "T00.1"
       ],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T00.1 冻结基线",
-      "critical": true,
+      "blocker": "等 T00.1",
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T00.4",
@@ -201,17 +217,18 @@
       "deps": [
         "T00.1"
       ],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T00.1 冻结基线",
-      "critical": true,
+      "blocker": "等 T00.1",
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T00.5",
@@ -223,17 +240,18 @@
       "deps": [
         "T00.1"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T00.1 冻结基线",
-      "critical": false,
+      "blocker": "等 T00.1",
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T00.6",
@@ -245,17 +263,18 @@
       "deps": [
         "T00.1"
       ],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T00.1 及其余合同输出",
-      "critical": true,
+      "blocker": "等 T00.1",
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T01.1",
@@ -267,17 +286,18 @@
       "deps": [
         "T00.5"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 WG0 / T00.5",
-      "critical": false,
+      "blocker": "等 T00.5",
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T01.2",
@@ -289,17 +309,18 @@
       "deps": [
         "T00.5"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 WG0 / T00.5",
-      "critical": false,
-      "note": "server.js/公共 guard 独占写面",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T00.5",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T01.3",
@@ -311,17 +332,18 @@
       "deps": [
         "T00.5"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 WG0 / T00.5",
-      "critical": false,
+      "blocker": "等 T00.5",
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T01.4",
@@ -333,17 +355,18 @@
       "deps": [
         "T01.2"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
       "blocker": "等 T01.2",
-      "critical": false,
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T01.5",
@@ -355,17 +378,18 @@
       "deps": [
         "T00.5"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 WG0 / T00.5",
-      "critical": false,
-      "note": "CSP 先 report-only 再收紧",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T00.5",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T01.6",
@@ -377,17 +401,18 @@
       "deps": [
         "T00.5"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 WG0 / T00.5",
-      "critical": false,
+      "blocker": "等 T00.5",
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T02.1",
@@ -399,17 +424,18 @@
       "deps": [
         "T00.3"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 WG0 / T00.3",
-      "critical": false,
+      "blocker": "等 T00.3",
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T02.2",
@@ -421,17 +447,18 @@
       "deps": [
         "T00.3"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 WG0 / T00.3",
-      "critical": false,
-      "note": "P188 fixture 先行",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T00.3",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T02.3",
@@ -444,17 +471,18 @@
         "T02.1",
         "T00.4"
       ],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T02.1 与 T00.4",
-      "critical": true,
-      "note": "workflow runtime 独占写面",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T02.1、T00.4",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T02.4",
@@ -466,17 +494,18 @@
       "deps": [
         "T00.4"
       ],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
       "blocker": "等 T00.4",
-      "critical": true,
-      "note": "同一 migration 序号串行",
-      "updatedAt": "2026-09-06",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T02.5",
@@ -488,17 +517,18 @@
       "deps": [
         "T00.3"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
       "blocker": "等 T00.3",
-      "critical": false,
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T02.6",
@@ -513,17 +543,18 @@
         "T02.4",
         "T02.5"
       ],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T02.2–T02.5 全部完成",
-      "critical": true,
-      "note": "api/chat.js 强制串行共享写面",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T02.2、T02.3、T02.4、T02.5",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T03.1",
@@ -535,17 +566,18 @@
       "deps": [
         "WG2"
       ],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 WG2 通过",
-      "critical": true,
-      "note": "先导纵向切片，代表入口仅一处接入",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 WG2",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T03.2",
@@ -557,17 +589,18 @@
       "deps": [
         "T02.4"
       ],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
       "blocker": "等 T02.4",
-      "critical": true,
-      "note": "迁移先于切流",
-      "updatedAt": "2026-09-06",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T03.3",
@@ -579,17 +612,18 @@
       "deps": [
         "T03.1"
       ],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T03.1 切片通过",
-      "critical": true,
-      "note": "registry 单写，入口 adapter 分文件并行",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T03.1",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T03.4",
@@ -602,17 +636,18 @@
         "T02.4",
         "T01.3"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T02.4 与 T01.3",
-      "critical": false,
+      "blocker": "等 T02.4、T01.3",
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T03.5",
@@ -625,17 +660,18 @@
         "T03.4",
         "T02.5"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T03.4 与 T02.5",
-      "critical": false,
-      "note": "pgvector 缺失不伪装语义检索",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T03.4、T02.5",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T03.6",
@@ -647,17 +683,18 @@
       "deps": [
         "T03.1"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
       "blocker": "等 T03.1",
-      "critical": false,
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T04.1",
@@ -669,17 +706,18 @@
       "deps": [
         "T00.1"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T00.1（可早启动 registry）",
-      "critical": false,
-      "note": "37 正式/3 跳转/1 预览",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T00.1",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T04.2",
@@ -692,17 +730,18 @@
         "T01.2",
         "WG2"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T01.2 与 WG2",
-      "critical": false,
-      "note": "共享 client/shell 独占写面",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T01.2、WG2",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T04.3",
@@ -714,17 +753,18 @@
       "deps": [
         "T04.1"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
       "blocker": "等 T04.1",
-      "critical": false,
-      "note": "auth-common 先单写",
-      "updatedAt": "2026-09-06",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T04.4",
@@ -737,17 +777,18 @@
         "T01.5",
         "T04.1"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T01.5 与 T04.1",
-      "critical": false,
-      "note": "按页面分批并行",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T01.5、T04.1",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T04.5",
@@ -760,17 +801,18 @@
         "T04.1",
         "T04.2"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T04.1/T04.2",
-      "critical": false,
-      "note": "共享导航先合",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T04.1、T04.2",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T04.6",
@@ -786,17 +828,18 @@
         "T04.4",
         "T04.5"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T04.1–T04.5",
-      "critical": false,
-      "note": "41 页面集合从 registry 机器生成",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T04.1、T04.2、T04.3、T04.4、T04.5",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T05.1",
@@ -808,17 +851,18 @@
       "deps": [
         "WG2"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 WG2 通过",
-      "critical": false,
-      "note": "model config/resolver 单写",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 WG2",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T05.2",
@@ -831,17 +875,18 @@
         "T05.1",
         "T02.5"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T05.1 与 T02.5",
-      "critical": false,
+      "blocker": "等 T05.1、T02.5",
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T05.3",
@@ -853,17 +898,18 @@
       "deps": [
         "T02.4"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
       "blocker": "等 T02.4",
-      "critical": false,
-      "note": "credit 表强制串行",
-      "updatedAt": "2026-09-06",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T05.4",
@@ -876,17 +922,18 @@
         "T02.5",
         "T05.1"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T02.5 与 T05.1",
-      "critical": false,
-      "note": "无真实 Provider E4 保持关闭",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T02.5、T05.1",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T05.5",
@@ -899,17 +946,18 @@
         "T02.5",
         "T05.1"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T02.5 与 T05.1",
-      "critical": false,
+      "blocker": "等 T02.5、T05.1",
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T05.6",
@@ -922,17 +970,18 @@
         "T05.1",
         "T05.3"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T05.1/T05.3",
-      "critical": false,
-      "note": "资金写操作单写",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T05.1、T05.3",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T06.1",
@@ -945,17 +994,18 @@
         "WG3",
         "WG5"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 Gate 3/5 相关 schema 冻结",
-      "critical": false,
-      "note": "只读审计，禁止直接删差异表",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 WG3、WG5",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T06.2",
@@ -969,17 +1019,18 @@
         "WG3",
         "WG5"
       ],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T06.1 与 Gate 3/5",
-      "critical": true,
-      "note": "迁移串行执行",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T06.1、WG3、WG5",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T06.3",
@@ -992,17 +1043,18 @@
         "T04.1",
         "T04.5"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T04.1/T04.5",
-      "critical": false,
+      "blocker": "等 T04.1、T04.5",
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T06.4",
@@ -1014,17 +1066,18 @@
       "deps": [
         "T00.6"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T00.6 与各 registry 稳定",
-      "critical": false,
-      "note": "反假绿/假红",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T00.6",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T06.5",
@@ -1038,17 +1091,18 @@
         "T06.3",
         "T06.4"
       ],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T06.2/3/4",
-      "critical": true,
-      "note": "release pipeline 单写",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T06.2、T06.3、T06.4",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T06.6",
@@ -1062,17 +1116,18 @@
         "T06.3",
         "T06.5"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "准备可并行，最终演练等 T06.5",
-      "critical": false,
+      "blocker": "等 T06.2、T06.3、T06.5",
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T07.1",
@@ -1084,17 +1139,18 @@
       "deps": [
         "WG6"
       ],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 WG6 通过",
-      "critical": true,
-      "note": "只测冻结候选",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 WG6",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T07.2",
@@ -1106,17 +1162,18 @@
       "deps": [
         "WG6"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 WG6 通过",
-      "critical": false,
+      "blocker": "等 WG6",
       "note": "",
-      "updatedAt": "2026-09-06",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T07.3",
@@ -1128,17 +1185,18 @@
       "deps": [
         "WG6"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 WG6 通过",
-      "critical": false,
-      "note": "A/B 账号、双 ip_id",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 WG6",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T07.4",
@@ -1150,17 +1208,18 @@
       "deps": [
         "WG6"
       ],
+      "critical": false,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 WG6 通过",
-      "critical": false,
-      "note": "视频未批准只验证 fail-closed",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 WG6",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T07.5",
@@ -1175,17 +1234,18 @@
         "T07.3",
         "T07.4"
       ],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T07.1–T07.4 与回滚演练有效",
-      "critical": true,
-      "note": "L6-S 观察窗",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T07.1、T07.2、T07.3、T07.4",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     },
     {
       "id": "T07.6",
@@ -1197,17 +1257,18 @@
       "deps": [
         "T07.5"
       ],
+      "critical": true,
       "owner": null,
       "reviewer": null,
       "status": "BLOCKED",
-      "blocker": "等 T07.5 观察完成",
-      "critical": true,
-      "note": "生产动作仍 HOLD",
-      "updatedAt": "2026-09-06",
+      "blocker": "等 T07.5",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null
+      "ghIssue": null,
+      "flags": [],
+      "updatedAt": "2026-09-06"
     }
   ],
   "log": [

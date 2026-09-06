@@ -1,0 +1,56 @@
+name: board-sync
+
+# 看板自动同步：定时校准 + 手动触发 + 源仓库 repository_dispatch
+# 同一时刻只允许一个同步任务运行；失败时保留旧页面并告警
+on:
+  schedule:
+    - cron: "*/20 * * * *"
+  workflow_dispatch:
+  repository_dispatch:
+    types: [source-repo-changed]
+
+concurrency:
+  group: board-sync
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Sync board from source repo
+        id: sync
+        env:
+          GH_TOKEN: ${{ secrets.SOURCE_REPO_TOKEN }}
+        run: python3 sync_board.py --ci --apply-labels
+
+      - name: Commit regenerated board
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add board.json index.html dist/index.html
+          if git diff --cached --quiet; then
+            echo "无变化"
+          else
+            git commit -m "sync: $(date -u '+%Y-%m-%d %H:%M UTC') 看板自动同步"
+            git push
+          fi
+
+      - name: 同步失败告警（保留旧页面）
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create \
+            --title "⚠️ 看板同步失败 $(date -u '+%Y-%m-%d %H:%M UTC')" \
+            --body "自动同步失败，线上看板保留上一版本。请检查 Actions 日志与 SOURCE_REPO_TOKEN 是否有效。" \
+            --label "board-alert" || true

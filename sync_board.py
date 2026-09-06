@@ -1,182 +1,343 @@
 #!/usr/bin/env python3
-# sync_board.py — 从 GitHub 拉取真实进度，更新 board.json 并重建公网看板
+# sync_board.py — 看板可信化同步器 v2
 #
-# 事实源：GitHub Issue / PR / Milestone（不是任何人的口头汇报）
+# 原则（可信化补丁）：
+#   - board.json 是纯生成物：plan.json（静态计划）+ GitHub 事实 → board.json，每次整体重建
+#   - 关闭 Issue ≠ 完成。DONE 需同时满足：合并的 PR + 自动测试全绿 + 非实施者审核批准 + evidence:ok 标签
+#   - Gate 只认机器标签 gate:pass，且候选 SHA 必须与当前候选一致；候选变化 → 旧 PASS 自动失效（HOLD）
+#   - 人员显示名只来自 people.json；未登记账号不直接显示 GitHub 用户名；负责人=复核人 → 标红
+#
 # 用法：
-#   python3 sync_board.py              # 拉取 + 更新 + 重新渲染
-#   python3 sync_board.py --publish    # 额外重新发布到妙搭（需 lark-cli 已认证）
-#   python3 sync_board.py --dry-run    # 只打印将要发生什么，不写文件
-#
-# GitHub 协作约定（任何 agent / 人都按这个来）：
-#   - Issue 标题以 [T00.1] 这样的任务号开头
-#   - assignee = 认领人；reviewer 用 label `reviewer:敏敏` / `reviewer:夏天`
-#   - 状态 label：state:blocked / state:in-review / state:ready-for-gate / state:observing
-#     无 label：open+有assignee=进行中；open+无assignee=可认领；closed=已完成
-#   - Gate 用标题 [GATE-WG0]…[GATE-WG7] 的 Issue 表示，closed=PASS
-#   - 认领时间 = issue 的 assigned 事件时间；完成时间 = closedAt
-import json, re, subprocess, sys, pathlib, datetime
+#   python3 sync_board.py                 # 拉取 + 重建 board.json + 渲染页面
+#   python3 sync_board.py --publish       # 额外 git push 刷新公网看板（本地）
+#   python3 sync_board.py --apply-labels  # 机器评估 Gate 条件并写回 gate:pass 标签（需写权限）
+#   python3 sync_board.py --ci            # CI 模式：不碰本机 Widget 路径，不 push
+#   python3 sync_board.py --dry-run       # 只打印变化
+#   python3 sync_board.py --selftest      # 七项伪造攻击自检，不接触网络
+import json, re, subprocess, sys, pathlib, datetime, shutil, os
 
 ROOT = pathlib.Path(__file__).parent
+PLAN = ROOT / "plan.json"
+PEOPLE = ROOT / "people.json"
 BOARD = ROOT / "board.json"
-REPO = "mingminwang962-eng/ip-system-runtime"
-WIDGET_BOARD = pathlib.Path("/Users/minmin/Library/Application Support/kimi-desktop/daimon-share/daimon/agents/main/blueprint/widgets/widget_c4d64365-1961-474e-ade1-617a82e3cbfb/workspace/board.json")
-
-# GitHub 登录名 -> 看板显示名。夏天的 GitHub 用户名确定后填到这里。
-ASSIGNEE_MAP = {
-    "mingminwang962-eng": "敏敏",
-    # "夏天的GitHub用户名": "夏天",
-}
+SOURCE_REPO = os.environ.get("BOARD_SOURCE_REPO", "mingminwang962-eng/ip-system-runtime")
+SOURCE_BRANCH = os.environ.get("BOARD_SOURCE_BRANCH", "main")
+WIDGET_BOARD = pathlib.Path(os.environ.get("WIDGET_BOARD_PATH",
+    "/Users/minmin/Library/Application Support/kimi-desktop/daimon-share/daimon/agents/main/blueprint/widgets/widget_c4d64365-1961-474e-ade1-617a82e3cbfb/workspace/board.json"))
 TASK_RE = re.compile(r"\[(T\d{2}\.\d)\]")
 GATE_RE = re.compile(r"\[GATE-(WG\d)\]")
+CANDIDATE_RE = re.compile(r"candidate:([0-9a-f]{7,40})")
 
-def gh(*args):
+STATUS_ORDER = ["READY", "IN_PROGRESS", "READY_FOR_REVIEW", "READY_FOR_GATE", "OBSERVING", "DONE"]
+
+def gh(*args, check=True):
     r = subprocess.run(["gh", *args], capture_output=True, text=True)
-    if r.returncode != 0:
+    if check and r.returncode != 0:
         raise RuntimeError(f"gh {' '.join(args[:2])} 失败: {r.stderr.strip()[:300]}")
     return r.stdout
 
 def day(iso):
     return iso[:10] if iso else None
 
-def main():
-    dry = "--dry-run" in sys.argv
-    board = json.loads(BOARD.read_text(encoding="utf-8"))
-    tasks = {t["id"]: t for t in board["tasks"]}
-    gates = {g["id"]: g for g in board["gates"]}
-    changes = []
+# ---------- 核心裁决逻辑（纯函数，可自检） ----------
 
-    raw = gh("issue", "list", "-R", REPO, "--state", "all", "--limit", "300",
-             "--json", "number,title,state,assignees,labels,createdAt,closedAt")
-    issues = json.loads(raw)
+def decide_task(issue, pr, people):
+    """根据 Issue + 关联 PR 裁决任务状态。返回 (status, owner, reviewer, flags, times)"""
+    flags, times = [], {}
+    if issue is None:
+        return None, None, None, flags, times  # 无 Issue：保持计划态
+    labels = {l["name"] for l in issue.get("labels", [])}
+    assignees = [a["login"] for a in issue.get("assignees", [])]
+    owner_login = assignees[0] if assignees else None
+    if owner_login and owner_login not in people:
+        flags.append(f"未登记账号 {owner_login}（请补 people.json）")
+    owner = people.get(owner_login, {}).get("display_name") if owner_login else None
+    reviewer = next((l.split(":", 1)[1] for l in labels if l.startswith("reviewer:")), None)
+    if owner and reviewer and owner == reviewer:
+        flags.append("负责人与复核人是同一人，违反交叉复核")
 
+    times["claimedAt"] = day(issue.get("claimedAt") or issue.get("createdAt")) if assignees else None
+    times["doneAt"] = None
+
+    if issue["state"] != "CLOSED":
+        if "state:blocked" in labels: st = "BLOCKED"
+        elif "state:in-review" in labels: st = "READY_FOR_REVIEW"
+        elif "state:ready-for-gate" in labels: st = "READY_FOR_GATE"
+        elif "state:observing" in labels: st = "OBSERVING"
+        elif assignees: st = "IN_PROGRESS"
+        else: st = "READY"
+        return st, owner, reviewer, flags, times
+
+    # Issue 已关闭 ≠ 完成：进入四级裁决
+    times["doneAt"] = None
+    if pr is None or not pr.get("mergedAt"):
+        flags.append("Issue 已关闭但无已合并 PR，最多记为待审查")
+        return "READY_FOR_REVIEW", owner, reviewer, flags, times
+
+    checks = [c for c in (pr.get("statusCheckRollup") or []) if c.get("__typename") == "CheckRun"]
+    if not checks:
+        flags.append("合并 PR 无自动测试记录")
+        return "READY_FOR_REVIEW", owner, reviewer, flags, times
+    bad = [c for c in checks if c.get("conclusion") not in ("SUCCESS", "NEUTRAL", "SKIPPED")]
+    if bad:
+        flags.append(f"{len(bad)} 项自动测试未通过")
+        return "READY_FOR_REVIEW", owner, reviewer, flags, times
+
+    pr_author = (pr.get("author") or {}).get("login")
+    approvals = [r for r in (pr.get("reviews") or [])
+                 if r.get("state") == "APPROVED"
+                 and r.get("author", {}).get("login") not in (pr_author, owner_login)]
+    if not approvals:
+        flags.append("缺少非实施者的审核批准")
+        return "READY_FOR_REVIEW", owner, reviewer, flags, times
+
+    if "evidence:ok" not in labels:
+        flags.append("证据清单未确认（缺 evidence:ok 标签）")
+        return "READY_FOR_GATE", owner, reviewer, flags, times
+
+    times["doneAt"] = day(issue.get("closedAt"))
+    return "DONE", owner, reviewer, flags, times
+
+def decide_gate(issue, current_sha):
+    """Gate 只认机器标签 gate:pass 且候选 SHA 匹配。返回 (status, note)"""
+    if issue is None:
+        return "PENDING", ""
+    labels = {l["name"] for l in issue.get("labels", [])}
+    if "gate:pass" not in labels:
+        if issue["state"] == "CLOSED":
+            return "HOLD", "人工关闭不产生 PASS：需机器核对后加 gate:pass 标签"
+        return "PENDING", ""
+    m = CANDIDATE_RE.search(issue.get("candidateComment") or "")
+    if not m:
+        return "HOLD", "gate:pass 缺少候选身份记录"
+    if current_sha and not current_sha.startswith(m.group(1)) and not m.group(1).startswith(current_sha[:7]):
+        return "HOLD", f"候选已变化（记录 {m.group(1)[:7]} ≠ 当前 {current_sha[:7]}），旧 PASS 自动失效"
+    return "PASS", ""
+
+# ---------- GitHub 拉取 ----------
+
+def fetch_all():
+    branch = SOURCE_BRANCH
+    if branch == "main":
+        branch = gh("api", f"repos/{SOURCE_REPO}", "--jq", ".default_branch").strip() or "main"
+    issues = json.loads(gh("issue", "list", "-R", SOURCE_REPO, "--state", "all", "--limit", "300",
+                           "--json", "number,title,state,assignees,labels,createdAt,closedAt"))
+    prs = json.loads(gh("pr", "list", "-R", SOURCE_REPO, "--state", "all", "--limit", "300",
+                        "--json", "number,title,state,mergedAt,author,statusCheckRollup,reviews"))
+    head_sha = gh("api", f"repos/{SOURCE_REPO}/commits/{branch}", "--jq", ".sha").strip()
+    # Gate 候选记录：读 gate:pass 评论
+    gate_comments = {}
+    for it in issues:
+        gm = GATE_RE.search(it["title"])
+        if gm:
+            body = gh("api", f"repos/{SOURCE_REPO}/issues/{it['number']}/comments",
+                      "--jq", '[.[] | .body] | join("\\n")', check=False)
+            it["candidateComment"] = body
+            gate_comments[gm.group(1)] = it
+    return issues, prs, head_sha, branch
+
+# ---------- 主流程 ----------
+
+def build_board(plan, people, issues, prs, head_sha, today, now, src_branch="main"):
+    tasks_out, gates_out, changes = [], [], []
+    issue_by_task, gate_issue = {}, {}
     for it in issues:
         m = TASK_RE.search(it["title"])
+        if m: issue_by_task[m.group(1)] = it
         gm = GATE_RE.search(it["title"])
-        if gm and gm.group(1) in gates:
-            g = gates[gm.group(1)]
-            new = "PASS" if it["state"] == "CLOSED" else "PENDING"
-            if g["status"] != new:
-                changes.append(f"Gate {g['id']}: {g['status']} → {new}（issue #{it['number']}）")
-                g["status"] = new
+        if gm: gate_issue[gm.group(1)] = it
+    pr_by_task = {}
+    for p in prs:
+        m = TASK_RE.search(p["title"])
+        if m and m.group(1) not in pr_by_task:
+            pr_by_task[m.group(1)] = p  # 同一任务多 PR 时取第一个（标题约定唯一）
+
+    for pt in plan["tasks"]:
+        t = dict(pt)
+        t.update({"owner": None, "reviewer": None, "status": None, "blocker": "",
+                  "note": "", "claimedAt": None, "doneAt": None, "blockedAt": None,
+                  "ghIssue": None, "flags": [], "updatedAt": today})
+        it = issue_by_task.get(t["id"])
+        pr = pr_by_task.get(t["id"])
+        if it:
+            t["ghIssue"] = it["number"]
+            st, owner, reviewer, flags, times = decide_task(it, pr, people)
+            t["status"], t["owner"], t["reviewer"] = st, owner, reviewer
+            t["flags"] = flags
+            t.update(times)
+            if st == "BLOCKED": t["blockedAt"] = today
+        tasks_out.append(t)
+
+    # 依赖与 Gate 裁决
+    tmap = {t["id"]: t for t in tasks_out}
+    gmap = {}
+    for pg in plan["gates"]:
+        gi = gate_issue.get(pg["id"])
+        st, note = decide_gate(gi, head_sha)
+        gmap[pg["id"]] = st
+        g = dict(pg); g["status"] = st; g["note"] = note
+        if gi: g["ghIssue"] = gi["number"]
+        gates_out.append(g)
+
+    for t in tasks_out:
+        if t["status"] is not None and t["status"] != "BLOCKED":
             continue
-        if not m or m.group(1) not in tasks:
+        deps = t.get("deps") or []
+        if not deps:
+            t["status"] = t["status"] or "READY"
             continue
-        t = tasks[m.group(1)]
-        labels = {l["name"] for l in it.get("labels", [])}
-        assignees = [a["login"] for a in it.get("assignees", [])]
-        owner = next((ASSIGNEE_MAP[a] for a in assignees if a in ASSIGNEE_MAP), None)
-        if not owner and assignees:
-            owner = assignees[0]  # 未登记的 GitHub 用户名原样显示，提醒补 ASSIGNEE_MAP
-        reviewer = next((l.split(":", 1)[1] for l in labels if l.startswith("reviewer:")), t.get("reviewer"))
+        ok = all((tmap[d]["status"] == "DONE") if d in tmap else (gmap.get(d) == "PASS") for d in deps)
+        if t["status"] is None:
+            t["status"] = "READY" if ok else "BLOCKED"
+            if not ok:
+                waiting = [d for d in deps if not ((tmap[d]["status"] == "DONE") if d in tmap else (gmap.get(d) == "PASS"))]
+                t["blocker"] = "等 " + "、".join(waiting)
 
-        if it["state"] == "CLOSED":
-            status = "DONE"
-        elif "state:blocked" in labels:
-            status = "BLOCKED"
-        elif "state:in-review" in labels:
-            status = "READY_FOR_REVIEW"
-        elif "state:ready-for-gate" in labels:
-            status = "READY_FOR_GATE"
-        elif "state:observing" in labels:
-            status = "OBSERVING"
-        elif assignees:
-            status = "IN_PROGRESS"
-        else:
-            status = "READY"
+    cur = 0
+    for w in plan["waves"]:
+        if any(t["wave"] == w["id"] and t["status"] != "DONE" for t in tasks_out):
+            cur = w["id"]; break
+    else:
+        cur = plan["waves"][-1]["id"]
 
-        done_at = day(it.get("closedAt")) if it["state"] == "CLOSED" else None
-        claimed_at = t.get("claimedAt")
-        if assignees and not claimed_at:
-            try:
-                tl = json.loads(gh("api", f"repos/{REPO}/issues/{it['number']}/timeline",
-                                   "--jq", '[.[] | select(.event=="assigned") | .created_at] | .[0] // empty'))
-                claimed_at = day(tl.strip('"')) if tl else day(it.get("createdAt"))
-            except Exception:
-                claimed_at = day(it.get("createdAt"))
+    return {
+        "meta": {**plan["meta"],
+                 "updatedAt": today, "updatedBy": "sync_board v2（GitHub 事实重建）",
+                 "syncedAt": now, "currentWave": cur,
+                 "generatedFrom": {"repo": SOURCE_REPO, "branch": src_branch,
+                                   "headSha": head_sha, "issues": len(issues), "prs": len(prs)}},
+        "owners": plan["owners"], "statusFlow": plan["statusFlow"],
+        "waves": plan["waves"], "gates": gates_out, "tasks": tasks_out,
+        "log": [], "_changes": changes,
+    }
 
-        diff = []
-        if t["status"] != status: diff.append(f"状态 {t['status']}→{status}")
-        if owner and t.get("owner") != owner: diff.append(f"认领人→{owner}")
-        if reviewer and t.get("reviewer") != reviewer: diff.append(f"复核→{reviewer}")
-        if done_at and t.get("doneAt") != done_at: diff.append(f"完成 {done_at}")
-        if claimed_at and t.get("claimedAt") != claimed_at: diff.append(f"认领 {claimed_at}")
-        if not diff:
-            continue
-
-        t["status"] = status
-        if owner: t["owner"] = owner
-        if reviewer: t["reviewer"] = reviewer
-        if claimed_at: t["claimedAt"] = claimed_at
-        t["doneAt"] = done_at
-        t["ghIssue"] = it["number"]
-        today = datetime.date.today().isoformat()
-        if status == "BLOCKED" and not t.get("blockedAt"):
-            t["blockedAt"] = today
-        if status != "BLOCKED":
-            t["blockedAt"] = None
-        t["updatedAt"] = today
-        changes.append(f"{t['id']}: {'，'.join(diff)}（issue #{it['number']}）")
-
-    # 依赖解锁：前置全部 DONE / Gate PASS 的 BLOCKED 任务 → READY
-    for t in board["tasks"]:
-        if t["status"] != "BLOCKED" or not t.get("deps"):
-            continue
-        ok = all(
-            (tasks[d]["status"] == "DONE") if d in tasks else (gates.get(d, {}).get("status") == "PASS")
-            for d in t["deps"]
-        )
-        if ok:
-            t["status"] = "READY"; t["blocker"] = ""; t["blockedAt"] = None
-            t["updatedAt"] = datetime.date.today().isoformat()
-            changes.append(f"{t['id']}: 前置已满足，BLOCKED → READY（自动解锁）")
-
-    # currentWave = 第一个存在未完成任务的 wave
+def gate_eligibility(board):
+    """机器 Gate 评估：本 Wave 任务全部 DONE 且无旗标 → 可贴 gate:pass"""
+    eligible = {}
     for w in board["waves"]:
-        if any(t["wave"] == w["id"] and t["status"] != "DONE" for t in board["tasks"]):
-            if board["meta"]["currentWave"] != w["id"]:
-                changes.append(f"当前波次 → Wave {w['id']}")
-                board["meta"]["currentWave"] = w["id"]
-            break
+        gid = w["gate"]
+        wt = [t for t in board["tasks"] if t["wave"] == w["id"]]
+        ok = all(t["status"] == "DONE" and not t["flags"] for t in wt)
+        eligible[gid] = ok
+    return eligible
 
-    if not changes and not issues:
-        print(f"仓库 {REPO} 暂无任务 Issue，看板保持计划初始状态。先在 GitHub 建 [Txx.x] Issue 后再同步。")
-        return
-    if not changes:
-        print("无变化，GitHub 与看板一致。")
-        return
+def main():
+    argv = sys.argv[1:]
+    if "--selftest" in argv:
+        return selftest()
+    dry, ci = "--dry-run" in argv, "--ci" in argv
+    apply_labels = "--apply-labels" in argv
 
+    plan = json.loads(PLAN.read_text(encoding="utf-8"))
+    people = json.loads(PEOPLE.read_text(encoding="utf-8"))
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    board["meta"]["syncedAt"] = now
-    board["meta"]["updatedAt"] = now[:10]
-    board["meta"]["updatedBy"] = "sync_board.py（GitHub 同步）"
-    board["log"].append({"at": now, "by": "GitHub 同步", "what": "；".join(changes)})
+    today = now[:10]
 
-    print("变更：")
-    for c in changes: print(" -", c)
+    try:
+        issues, prs, head_sha, src_branch = fetch_all()
+    except Exception as e:
+        # 同步失败：保留旧页面，不覆盖（补丁第三项）
+        print(f"同步失败：{e}\n旧看板保持不变。")
+        sys.exit(2)
+
+    board = build_board(plan, people, issues, prs, head_sha, today, now, src_branch)
+
+    # 与上一版对比生成变更日志
+    old = json.loads(BOARD.read_text(encoding="utf-8")) if BOARD.exists() else None
+    log = (old or {}).get("log", [])
+    if old:
+        oldt = {t["id"]: t for t in old.get("tasks", [])}
+        for t in board["tasks"]:
+            o = oldt.get(t["id"], {})
+            diff = []
+            if o.get("status") != t["status"]: diff.append(f"状态 {o.get('status','—')}→{t['status']}")
+            if o.get("owner") != t["owner"] and t["owner"]: diff.append(f"认领人→{t['owner']}")
+            if diff: changes = f"{t['id']}: {'，'.join(diff)}"; board["_changes"].append(changes)
+        oldg = {g["id"]: g for g in old.get("gates", [])}
+        for g in board["gates"]:
+            if oldg.get(g["id"], {}).get("status") != g["status"]:
+                board["_changes"].append(f"{g['id']}: {oldg.get(g['id'],{}).get('status','—')}→{g['status']}")
+    if board["_changes"]:
+        log.append({"at": now, "by": "GitHub 同步", "what": "；".join(board["_changes"])})
+    board["log"] = log[-200:]
+    del board["_changes"]
+
+    if not issues:
+        print(f"源仓库 {SOURCE_REPO} 暂无任务 Issue，看板为计划初始态（全部待认领）。")
+
+    # 机器 Gate 标签写回
+    if apply_labels:
+        elig = gate_eligibility(board)
+        for g in board["gates"]:
+            if "ghIssue" not in g: continue
+            want = elig.get(g["id"], False)
+            has = g["status"] == "PASS"
+            if want and not has:
+                gh("issue", "edit", str(g["ghIssue"]), "-R", SOURCE_REPO, "--add-label", "gate:pass", check=False)
+                gh("issue", "comment", str(g["ghIssue"]), "-R", SOURCE_REPO,
+                   "--body", f"candidate:{head_sha}\n机器核对：本 Wave 任务全部 DONE 且无旗标。", check=False)
+                print(f"机器加签 {g['id']} gate:pass (candidate {head_sha[:7]})")
+            elif not want and has:
+                gh("issue", "edit", str(g["ghIssue"]), "-R", SOURCE_REPO, "--remove-label", "gate:pass", check=False)
+                print(f"机器摘除 {g['id']} gate:pass（条件不再满足）")
+
+    print("变更：" if board["log"] and board["log"][-1]["by"] == "GitHub 同步" else "无状态变化。")
+    if board["log"] and board["log"][-1]["by"] == "GitHub 同步":
+        print(" - " + board["log"][-1]["what"])
     if dry:
         print("--dry-run，未写文件"); return
 
-    payload = json.dumps(board, ensure_ascii=False, indent=2)
-    BOARD.write_text(payload, encoding="utf-8")
-    if WIDGET_BOARD.exists():
-        WIDGET_BOARD.write_text(payload, encoding="utf-8")
+    BOARD.write_text(json.dumps(board, ensure_ascii=False, indent=2), encoding="utf-8")
+    if not ci and WIDGET_BOARD.exists():
+        WIDGET_BOARD.write_text(BOARD.read_text(encoding="utf-8"), encoding="utf-8")
     subprocess.run([sys.executable, str(ROOT / "render_board.py")], check=True)
-    print("board.json 已更新，公网页面已重建。")
+    print("board.json 已重建（plan + GitHub 事实），页面已渲染。")
 
-    if "--publish" in sys.argv:
-        # 公网看板 = 本目录的 GitHub Pages（仓库根 index.html），push 即刷新
-        import shutil
+    if "--publish" in argv and not ci:
         shutil.copy(ROOT / "dist" / "index.html", ROOT / "index.html")
         subprocess.run(["git", "add", "-A"], cwd=ROOT, check=True)
-        r = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT)
-        if r.returncode != 0:
-            subprocess.run(["git", "-c", "user.name=minmin", "-c",
-                            "user.email=mingminwang962-eng@users.noreply.github.com",
+        if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT).returncode != 0:
+            subprocess.run(["git", "-c", "user.name=github-actions[bot]",
+                            "-c", "user.email=41898282+github-actions[bot]@users.noreply.github.com",
                             "commit", "-qm", f"sync: {now} 看板同步"], cwd=ROOT, check=True)
             subprocess.run(["git", "push", "-q"], cwd=ROOT, check=True)
-            print("已发布 → https://mingminwang962-eng.github.io/wuxiaokong-board/")
+            print("已发布。")
         else:
             print("页面无变化，跳过发布。")
+
+# ---------- 七项伪造攻击自检 ----------
+
+def selftest():
+    people = {"alice": {"display_name": "敏敏"}, "bob": {"display_name": "夏天"}}
+    good_checks = [{"__typename": "CheckRun", "conclusion": "SUCCESS"}]
+    ext_review = [{"state": "APPROVED", "author": {"login": "bob"}}]
+    self_review = [{"state": "APPROVED", "author": {"login": "alice"}}]
+    closed = lambda labels: {"state": "CLOSED", "labels": [{"name": l} for l in labels],
+                             "assignees": [{"login": "alice"}], "createdAt": "2026-09-01", "closedAt": "2026-09-05"}
+    pr = lambda checks, reviews: {"mergedAt": "x", "author": {"login": "alice"},
+                                  "statusCheckRollup": checks, "reviews": reviews}
+    cases = []
+    s, *_ = decide_task(closed([]), None, people)
+    cases.append(("手工关闭任务不能伪造完成", s == "READY_FOR_REVIEW"))
+    s, *_ = decide_task(closed(["evidence:ok"]), pr([{"__typename": "CheckRun", "conclusion": "FAILURE"}], ext_review), people)
+    cases.append(("测试失败不能显示 DONE", s == "READY_FOR_REVIEW"))
+    s, _, _, fl, _ = decide_task(closed(["evidence:ok"]), pr(good_checks, self_review), people)
+    cases.append(("实施者不能审核自己", s == "READY_FOR_REVIEW" and any("审核" in f for f in fl)))
+    s, *_ = decide_task(closed([]), pr(good_checks, ext_review), people)
+    cases.append(("缺证据清单最多到待过门", s == "READY_FOR_GATE"))
+    s, *_ = decide_task(closed(["evidence:ok"]), pr(good_checks, ext_review), people)
+    cases.append(("四级全过才 DONE", s == "DONE"))
+    g, note = decide_gate({"state": "CLOSED", "labels": [], "candidateComment": ""}, "abc1234")
+    cases.append(("人工关 Gate 不 PASS", g == "HOLD"))
+    g, note = decide_gate({"state": "OPEN", "labels": [{"name": "gate:pass"}], "candidateComment": "candidate:aaa1111"}, "bbb2222")
+    cases.append(("候选变化旧 PASS 自动失效", g == "HOLD"))
+    g, _ = decide_gate({"state": "OPEN", "labels": [{"name": "gate:pass"}], "candidateComment": "candidate:abc1234"}, "abc1234def")
+    cases.append(("机器标签+候选一致才 PASS", g == "PASS"))
+    failed = [name for name, ok in cases if not ok]
+    for name, ok in cases:
+        print(("✓" if ok else "✗"), name)
+    print(f"\n自检 {len(cases)-len(failed)}/{len(cases)} 通过")
+    sys.exit(1 if failed else 0)
 
 if __name__ == "__main__":
     main()
