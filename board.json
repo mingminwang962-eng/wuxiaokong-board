@@ -5,15 +5,15 @@
     "boardVersion": "2.0.0",
     "baselineSha": "8acd3fc554f6f35a3add119980869bbdb857faa8（审计基线，待 T00.1 重新冻结）",
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
-    "updatedAt": "2026-09-06",
+    "updatedAt": "2026-09-07",
     "updatedBy": "sync_board v2（GitHub 事实重建）",
-    "syncedAt": "2026-09-06 23:30",
+    "syncedAt": "2026-09-07 10:28",
     "currentWave": 0,
     "generatedFrom": {
-      "repo": "mingminwang962-eng/ip-system-runtime",
-      "branch": "minmin",
-      "headSha": "f37948fac9c5fd99c5aa0ad5fd31531afc7bb8ae",
-      "issues": 0,
+      "repo": "lyx680805-first/ip-system-runtime",
+      "branch": "main",
+      "headSha": "df7769521644825e6f7cb308a344a605437bc914",
+      "issues": 3,
       "prs": 0
     }
   },
@@ -161,7 +161,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T00.2",
@@ -182,7 +182,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T00.3",
@@ -205,7 +205,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T00.4",
@@ -228,7 +228,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T00.5",
@@ -251,7 +251,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T00.6",
@@ -274,7 +274,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T01.1",
@@ -297,7 +297,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T01.2",
@@ -320,7 +320,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T01.3",
@@ -343,7 +343,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T01.4",
@@ -366,7 +366,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T01.5",
@@ -389,7 +389,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T01.6",
@@ -412,7 +412,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T02.1",
@@ -435,7 +435,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T02.2",
@@ -458,7 +458,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T02.3",
@@ -482,7 +482,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T02.4",
@@ -505,7 +505,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T02.5",
@@ -528,7 +528,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T02.6",
@@ -554,7 +554,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T03.1",
@@ -577,7 +577,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T03.2",
@@ -600,7 +600,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T03.3",
@@ -623,7 +623,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T03.4",
@@ -647,7 +647,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T03.5",
@@ -671,7 +671,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T03.6",
@@ -694,7 +694,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T04.1",
@@ -717,7 +717,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T04.2",
@@ -741,7 +741,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T04.3",
@@ -764,7 +764,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T04.4",
@@ -788,7 +788,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T04.5",
@@ -812,7 +812,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T04.6",
@@ -839,7 +839,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T05.1",
@@ -862,7 +862,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T05.2",
@@ -886,7 +886,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T05.3",
@@ -909,7 +909,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T05.4",
@@ -933,7 +933,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T05.5",
@@ -957,7 +957,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T05.6",
@@ -981,7 +981,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T06.1",
@@ -1005,7 +1005,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T06.2",
@@ -1030,7 +1030,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T06.3",
@@ -1054,7 +1054,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T06.4",
@@ -1077,7 +1077,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T06.5",
@@ -1102,7 +1102,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T06.6",
@@ -1127,7 +1127,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T07.1",
@@ -1150,7 +1150,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T07.2",
@@ -1173,7 +1173,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T07.3",
@@ -1196,7 +1196,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T07.4",
@@ -1219,7 +1219,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T07.5",
@@ -1245,7 +1245,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     },
     {
       "id": "T07.6",
@@ -1268,7 +1268,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-06"
+      "updatedAt": "2026-09-07"
     }
   ],
   "log": [

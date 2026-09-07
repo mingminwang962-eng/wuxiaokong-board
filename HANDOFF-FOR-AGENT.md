@@ -2,7 +2,8 @@
 
 > 给负责「看板自动同步」的 agent：看完这份文档即可独立接手，不需要问人。
 > 看板仓库：`mingminwang962-eng/wuxiaokong-board`（公开，GitHub Pages 站点）
-> 源仓库：`mingminwang962-eng/ip-system-runtime`（私有，任务事实都在这里）
+> 源仓库：`lyx680805-first/ip-system-runtime`（夏天账号，私有，任务事实都在这里）
+> ⚠️ 2026-09-07 系统所有者（敏敏）拍板：施工仓库=夏天仓 `lyx680805-first/ip-system-runtime`。`mingminwang962-eng/ip-system-runtime` 是敏敏账号下的旧副本（仅剩 6 月旧 minmin 分支），**不是施工仓库，别去那边开 Issue/PR**。看板同步默认仓库已随之改指夏天仓。
 
 ## 这个系统是什么
 

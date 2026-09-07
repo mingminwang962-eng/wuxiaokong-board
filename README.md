@@ -53,7 +53,7 @@
 
 `.github/workflows/sync.yml`：每 20 分钟 + 手动触发；单并发防覆盖；失败保留旧页面并自动开告警 Issue。
 
-**首次启用需要一次性配置**：仓库 Settings → Secrets 添加 `SOURCE_REPO_TOKEN`（一个能读取私有源仓库 `ip-system-runtime` 的 PAT），否则 Actions 无法读取任务 Issue。
+**首次启用需要一次性配置**：仓库 Settings → Secrets 添加 `SOURCE_REPO_TOKEN`（一个能读取私有源仓库 `lyx680805-first/ip-system-runtime`（施工仓库，9-7 拍板）的 PAT），否则 Actions 无法读取任务 Issue。
 
 `.github/workflows/guard.yml`：PR 中手改 `board.json` / 页面文件直接失败——状态只能从 GitHub 事实生成。
 

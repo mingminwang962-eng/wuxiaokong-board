@@ -20,7 +20,7 @@ ROOT = pathlib.Path(__file__).parent
 PLAN = ROOT / "plan.json"
 PEOPLE = ROOT / "people.json"
 BOARD = ROOT / "board.json"
-SOURCE_REPO = os.environ.get("BOARD_SOURCE_REPO", "mingminwang962-eng/ip-system-runtime")
+SOURCE_REPO = os.environ.get("BOARD_SOURCE_REPO", "lyx680805-first/ip-system-runtime")
 SOURCE_BRANCH = os.environ.get("BOARD_SOURCE_BRANCH", "main")
 WIDGET_BOARD = pathlib.Path(os.environ.get("WIDGET_BOARD_PATH",
     "/Users/minmin/Library/Application Support/kimi-desktop/daimon-share/daimon/agents/main/blueprint/widgets/widget_c4d64365-1961-474e-ade1-617a82e3cbfb/workspace/board.json"))
