@@ -7,16 +7,16 @@
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-07",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-07 16:53",
+    "syncedAt": "2026-09-07 17:13",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
-      "branch": "main",
-      "headSha": "df7769521644825e6f7cb308a344a605437bc914",
-      "issues": 3,
-      "prs": 0
+      "branch": "codex/wave0-integration",
+      "headSha": "8acd3fc554f6f35a3add119980869bbdb857faa8",
+      "issues": 4,
+      "prs": 1
     },
-    "syncedAtISO": "2026-09-07T08:53:15.970790+00:00"
+    "syncedAtISO": "2026-09-07T09:13:05.716778+00:00"
   },
   "owners": [
     "敏敏",
@@ -1272,6 +1272,15 @@
       "updatedAt": "2026-09-07"
     }
   ],
+  "atomicIssues": [
+    {
+      "id": "F0-FE-01",
+      "status": "READY_FOR_REVIEW",
+      "owner": "敏敏",
+      "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/4",
+      "prUrl": "https://github.com/lyx680805-first/ip-system-runtime/pull/5"
+    }
+  ],
   "log": [
     {
       "at": "2026-09-06",
@@ -1297,23 +1306,28 @@
       "at": "2026-09-07 16:53",
       "by": "GitHub 同步",
       "what": "模板已通过，继续分批整理（准备进度，不计入施工完成）"
+    },
+    {
+      "at": "2026-09-07 17:13",
+      "by": "GitHub 同步",
+      "what": "首卡已转出，后续草稿继续整理（准备进度，不计入施工完成）"
     }
   ],
   "preparation": {
-    "phase": "template_approved",
-    "title": "模板已通过，继续分批整理",
-    "nextStep": "优先补齐首张任务准入；条件齐即开工，不等待全部草稿",
+    "phase": "issuing",
+    "title": "首卡已转出，后续草稿继续整理",
+    "nextStep": "正式任务进度见下方Issue/PR；原草稿已停止维护任务状态",
     "counts": {
       "parentDrafts": 6,
-      "atomicDrafts": 16,
-      "detailedSamples": 7,
+      "atomicDrafts": 15,
+      "detailedSamples": 12,
       "selfCheckGroups": 7
     },
-    "updatedAt": "2026-09-07T16:52:39+08:00",
-    "sampleCommit": "46b5aeca3f4c58c03f68be9ba8aff6df6e020522",
-    "recordCommit": "9d9d3018415b9207fe46cf363c6e6d94fd3d9b7b",
-    "sampleUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/46b5aeca3f4c58c03f68be9ba8aff6df6e020522",
-    "recordUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/blob/9d9d3018415b9207fe46cf363c6e6d94fd3d9b7b/status/board-preparation.json",
+    "updatedAt": "2026-09-07T17:11:05+08:00",
+    "sampleCommit": "86d0938528ba2a08f55601082c537e5b4caedd5c",
+    "recordCommit": "088f2bbc3554fe143b376891244e75ee02d151bc",
+    "sampleUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/86d0938528ba2a08f55601082c537e5b4caedd5c",
+    "recordUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/blob/088f2bbc3554fe143b376891244e75ee02d151bc/status/board-preparation.json",
     "events": [
       {
         "at": "2026-09-07T16:09:45+08:00",
@@ -1334,6 +1348,16 @@
         "at": "2026-09-07T16:52:39+08:00",
         "title": "草稿修订和自检记录已提交",
         "url": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/46b5aeca3f4c58c03f68be9ba8aff6df6e020522"
+      },
+      {
+        "at": "2026-09-07T16:57:06+08:00",
+        "title": "草稿修订和自检记录已提交",
+        "url": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/ac8f12c70059f0a504bb5ef91e65b6d596d4ea5a"
+      },
+      {
+        "at": "2026-09-07T17:11:05+08:00",
+        "title": "开始按准入条件转出任务",
+        "url": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/86d0938528ba2a08f55601082c537e5b4caedd5c"
       }
     ]
   }
