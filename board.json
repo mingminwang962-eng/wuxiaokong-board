@@ -3,11 +3,11 @@
     "plan": "悟小空系统修复实施计划与项目作战图 v1.2（夏天确认版）",
     "planSource": "DoubaoWork/chats/2026-09-06/new-chat-1",
     "boardVersion": "2.0.0",
-    "baselineSha": "8acd3fc554f6f35a3add119980869bbdb857faa8（审计基线，待 T00.1 重新冻结）",
+    "baselineSha": "8acd3fc554f6f35a3add119980869bbdb857faa8（2026-09-07 系统所有者批准：统一施工起点；main 不整分支合并，5 个独有提交价值转任务迁入）",
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-07",
     "updatedBy": "sync_board v2（GitHub 事实重建）",
-    "syncedAt": "2026-09-07 10:28",
+    "syncedAt": "2026-09-07 11:19",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
