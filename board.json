@@ -7,7 +7,7 @@
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-07",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-07 21:31",
+    "syncedAt": "2026-09-07 21:34",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
@@ -16,7 +16,7 @@
       "issues": 4,
       "prs": 1
     },
-    "syncedAtISO": "2026-09-07T13:31:36.149604+00:00"
+    "syncedAtISO": "2026-09-07T13:34:30.095466+00:00"
   },
   "owners": [
     "敏敏",
@@ -1611,6 +1611,11 @@
       "at": "2026-09-07 21:31",
       "by": "GitHub 同步",
       "what": "首卡已转出，后续草稿继续整理（准备进度，不计入施工完成）"
+    },
+    {
+      "at": "2026-09-07 21:34",
+      "by": "GitHub 同步",
+      "what": "首卡已转出，后续草稿继续整理（准备进度，不计入施工完成）"
     }
   ],
   "preparation": {
@@ -1619,21 +1624,16 @@
     "nextStep": "正式任务进度见下方Issue/PR；原草稿已停止维护任务状态",
     "counts": {
       "parentDrafts": 42,
-      "atomicDrafts": 183,
-      "detailedSamples": 183,
+      "atomicDrafts": 185,
+      "detailedSamples": 185,
       "selfCheckGroups": 7
     },
-    "updatedAt": "2026-09-07T21:31:10+08:00",
-    "sampleCommit": "902e33e57f5527adffa4538b646b98e34d375604",
-    "recordCommit": "3c895eb118d748787a642a5ef5e9bcb0e85da337",
-    "sampleUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/902e33e57f5527adffa4538b646b98e34d375604",
-    "recordUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/blob/3c895eb118d748787a642a5ef5e9bcb0e85da337/status/board-preparation.json",
+    "updatedAt": "2026-09-07T21:34:07+08:00",
+    "sampleCommit": "32a8feb0d8813dd34a91299da15d44396b52ec13",
+    "recordCommit": "6cafaf2f084db0156dee50a649062aa37fd0c516",
+    "sampleUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/32a8feb0d8813dd34a91299da15d44396b52ec13",
+    "recordUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/blob/6cafaf2f084db0156dee50a649062aa37fd0c516/status/board-preparation.json",
     "events": [
-      {
-        "at": "2026-09-07T20:21:03+08:00",
-        "title": "草稿修订和自检记录已提交",
-        "url": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/5e8d1603745ac1377ca49e2e3a9e99d19d946003"
-      },
       {
         "at": "2026-09-07T20:24:08+08:00",
         "title": "草稿修订和自检记录已提交",
@@ -1728,6 +1728,11 @@
         "at": "2026-09-07T21:31:10+08:00",
         "title": "草稿修订和自检记录已提交",
         "url": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/902e33e57f5527adffa4538b646b98e34d375604"
+      },
+      {
+        "at": "2026-09-07T21:34:07+08:00",
+        "title": "草稿修订和自检记录已提交",
+        "url": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/32a8feb0d8813dd34a91299da15d44396b52ec13"
       }
     ]
   }
