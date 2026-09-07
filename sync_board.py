@@ -14,7 +14,8 @@
 #   python3 sync_board.py --ci            # CI 模式：不碰本机 Widget 路径，不 push
 #   python3 sync_board.py --dry-run       # 只打印变化
 #   python3 sync_board.py --selftest      # 七项伪造攻击自检，不接触网络
-import json, re, subprocess, sys, pathlib, datetime, shutil, os
+import json, re, subprocess, sys, pathlib, datetime, shutil, os, fcntl, base64
+from preparation import WORK_REPO, project_preparation
 
 ROOT = pathlib.Path(__file__).parent
 PLAN = ROOT / "plan.json"
@@ -31,7 +32,7 @@ CANDIDATE_RE = re.compile(r"candidate:([0-9a-f]{7,40})")
 STATUS_ORDER = ["READY", "IN_PROGRESS", "READY_FOR_REVIEW", "READY_FOR_GATE", "OBSERVING", "DONE"]
 
 def gh(*args, check=True):
-    r = subprocess.run(["gh", *args], capture_output=True, text=True)
+    r = subprocess.run(["gh", *args], capture_output=True, text=True, timeout=90)
     if check and r.returncode != 0:
         raise RuntimeError(f"gh {' '.join(args[:2])} 失败: {r.stderr.strip()[:300]}")
     return r.stdout
@@ -65,7 +66,8 @@ def decide_task(issue, pr, people):
         elif "state:ready-for-gate" in labels: st = "READY_FOR_GATE"
         elif "state:observing" in labels: st = "OBSERVING"
         elif assignees: st = "IN_PROGRESS"
-        else: st = "READY"
+        elif "status:ready" in labels: st = "READY"
+        else: st = "TRIAGED"
         return st, owner, reviewer, flags, times
 
     # Issue 已关闭 ≠ 完成：进入四级裁决
@@ -138,6 +140,12 @@ def fetch_all():
 
 # ---------- 主流程 ----------
 
+def fetch_preparation():
+    record_sha = gh("api", f"repos/{WORK_REPO}/commits/main", "--jq", ".sha").strip()
+    content = json.loads(gh("api", f"repos/{WORK_REPO}/contents/status/board-preparation.json?ref={record_sha}"))
+    record = json.loads(base64.b64decode(content["content"]))
+    return project_preparation(record, record_sha)
+
 def build_board(plan, people, issues, prs, head_sha, today, now, src_branch="main"):
     tasks_out, gates_out, changes = [], [], []
     issue_by_task, gate_issue = {}, {}
@@ -166,6 +174,9 @@ def build_board(plan, people, issues, prs, head_sha, today, now, src_branch="mai
             t["flags"] = flags
             t.update(times)
             if st == "BLOCKED": t["blockedAt"] = today
+        else:
+            t["status"] = "PLANNED"
+            t["note"] = "父工作包尚未建单；草稿审核进度见上方，不代表可认领施工。"
         tasks_out.append(t)
 
     # 依赖与 Gate 裁决
@@ -221,7 +232,7 @@ def gate_eligibility(board):
         eligible[gid] = ok
     return eligible
 
-def main():
+def run_sync():
     argv = sys.argv[1:]
     if "--selftest" in argv:
         return selftest()
@@ -235,17 +246,24 @@ def main():
 
     try:
         issues, prs, head_sha, src_branch = fetch_all()
+        preparation = fetch_preparation()
     except Exception as e:
         # 同步失败：保留旧页面，不覆盖（补丁第三项）
         print(f"同步失败：{e}\n旧看板保持不变。")
         sys.exit(2)
 
     board = build_board(plan, people, issues, prs, head_sha, today, now, src_branch)
+    board["preparation"] = preparation
+    board["meta"]["syncedAtISO"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    board["meta"]["updatedBy"] = "GitHub 同步（施工记录＋准备状态）"
 
     # 与上一版对比生成变更日志
     old = json.loads(BOARD.read_text(encoding="utf-8")) if BOARD.exists() else None
     log = (old or {}).get("log", [])
     if old:
+        oldprep = old.get("preparation") or {}
+        if any(oldprep.get(k) != preparation.get(k) for k in ("phase", "sampleCommit", "counts")):
+            board["_changes"].append(preparation["title"] + "（准备进度，不计入施工完成）")
         oldt = {t["id"]: t for t in old.get("tasks", [])}
         for t in board["tasks"]:
             o = oldt.get(t["id"], {})
@@ -263,7 +281,7 @@ def main():
     del board["_changes"]
 
     if not issues:
-        print(f"源仓库 {SOURCE_REPO} 暂无任务 Issue，看板为计划初始态（全部待认领）。")
+        print(f"源仓库 {SOURCE_REPO} 暂无任务 Issue，看板为计划初始态（全部待建单）。")
 
     # 机器 Gate 标签写回
     if apply_labels:
@@ -295,7 +313,11 @@ def main():
 
     if "--publish" in argv and not ci:
         shutil.copy(ROOT / "dist" / "index.html", ROOT / "index.html")
-        subprocess.run(["git", "add", "-A"], cwd=ROOT, check=True)
+        generated = ["board.json", "dist/index.html", "index.html"]
+        staged = subprocess.check_output(["git", "diff", "--cached", "--name-only"], cwd=ROOT, text=True).splitlines()
+        if set(staged) - set(generated):
+            raise RuntimeError("暂存区有非看板生成文件，停止自动提交，请先处理人工改动")
+        subprocess.run(["git", "add", "--", *generated], cwd=ROOT, check=True)
         if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT).returncode != 0:
             subprocess.run(["git", "-c", "user.name=github-actions[bot]",
                             "-c", "user.email=41898282+github-actions[bot]@users.noreply.github.com",
@@ -304,6 +326,18 @@ def main():
             print("已发布。")
         else:
             print("页面无变化，跳过发布。")
+
+def main():
+    if "--selftest" in sys.argv:
+        return selftest()
+    # 自动同步与人工同步不能同时重建/提交同一工作树。
+    with open(ROOT / ".git" / "board-sync.lock", "w") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            print("另一次看板同步正在执行，本轮跳过。")
+            return
+        return run_sync()
 
 # ---------- 七项伪造攻击自检 ----------
 

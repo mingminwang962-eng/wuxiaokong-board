@@ -21,56 +21,15 @@
 | `render_board.py` | board.json → 页面 | 改样式 |
 | `board.json` / `index.html` / `dist/index.html` | **纯生成物** | ❌ 禁止手改 |
 
-## 你要做的事：让同步跑起来
+## 当前同步方式
 
-任选一种方式，目标是「GitHub 上的任务事实变化后，看板 20 分钟内自动刷新」：
+已使用本机 Codex 当前任务的心跳调度，每 20 分钟同步一次。不要重复建立 cron、launchd 或 GitHub Actions。需要本机 Codex 和网络可用；页面每 60 秒检查发布快照，超过 45 分钟未同步会提示。
 
-### 方式 A：任何机器上定时跑（最简单，推荐先跑通）
+执行目录 `/Users/minmin/Documents/wuxiaokong-board`。先检查工作树；干净时 `git pull --ff-only`，再运行 `python3 -B sync_board.py --publish`。有人工改动或分支分歧先保留现场，不强制覆盖。脚本只提交 `board.json`、`dist/index.html`、`index.html`；读取失败保留旧快照。定时任务不使用 `--apply-labels`，不写 Issue 评论，不进行施工操作。
 
-```bash
-git clone git@github.com:mingminwang962-eng/wuxiaokong-board.git
-cd wuxiaokong-board
-# 需要 gh CLI 已登录且能读 ip-system-runtime
-python3 sync_board.py --publish
-```
+准备进度来自私有工作仓 `mingminwang962-eng/wuxiaokong-work` 的 `status/board-preparation.json`。经办人在真实修订、审核事件后更新该记录并提交。同步器固定提交读取，只公开白名单字段。具体字段与阶段见工作仓 `status/README.md` 和本仓 `preparation.py`。
 
-挂 cron / launchd / 你所在的 agent 调度器，每 20 分钟跑一次即可。同步失败脚本会 exit 2 且**不覆盖旧页面**，你需要做的是告警（比如开一个 `board-alert` Issue）。
-
-### 方式 B：GitHub Actions（不依赖任何本机）
-
-在看板仓库建 `.github/workflows/sync.yml`：
-
-```yaml
-name: board-sync
-on:
-  schedule: [{ cron: "*/20 * * * *" }]
-  workflow_dispatch:
-concurrency: { group: board-sync, cancel-in-progress: false }
-permissions: { contents: write, issues: write }
-jobs:
-  sync:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: { python-version: "3.12" }
-      - env: { GH_TOKEN: ${{ secrets.SOURCE_REPO_TOKEN }} }
-        run: python3 sync_board.py --ci --apply-labels
-      - run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add board.json index.html dist/index.html
-          git diff --cached --quiet || { git commit -m "sync: 看板自动同步"; git push; }
-      - if: failure()
-        env: { GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} }
-        run: gh issue create --title "⚠️ 看板同步失败" --body "线上看板保留上一版本，请查 Actions 日志与 SOURCE_REPO_TOKEN。" --label "board-alert" || true
-```
-
-前提：看板仓库 Secrets 里配 `SOURCE_REPO_TOKEN`（能读私有源仓库的 PAT）。**没配好之前不要启用 schedule，否则每 20 分钟失败+告警刷屏。**
-
-### 方式 C（可选增强）：事件驱动
-
-在源仓库 `ip-system-runtime` 加一个 workflow，监听 issues/pull_request 事件后 `repository_dispatch` 到看板仓库触发方式 B。需要 PAT。可选，定时轮询已经够用。
+准备数量不计入正式完成率；尚未建单显示 `PLANNED`。当前施工判定仍是旧父工作包关联规则，正式原子任务转出前还需实现子任务/Gate/证据汇总，不能将本次动态展示更新当作该项已完成。
 
 ## 同步器的裁决规则（改逻辑前先读懂）
 
@@ -89,7 +48,7 @@ jobs:
 - 人工关闭 Gate Issue = HOLD，不是 PASS
 - 机器核对「本 Wave 任务全部 DONE 且无旗标」后贴 `gate:pass` 标签并评论 `candidate:<sha>`
 - 候选 SHA 变化 → 旧 PASS 自动失效为 HOLD
-- 自动贴签需要 `sync_board.py --apply-labels`（方式 B 已带）
+- 自动贴签需要 `sync_board.py --apply-labels`（当前心跳不使用此选项）
 
 ### 人员
 
@@ -97,7 +56,7 @@ jobs:
 
 ### 依赖解锁
 
-前置任务 DONE / Gate PASS 后，下游 BLOCKED 自动转 READY，由 sync 完成，不用人管。
+未建单的工作包不会因依赖为空而变成可认领；正式准入需要任务记录。现有依赖裁决与父子汇总仍需在正式建单前按新规则完善。
 
 ## GitHub 协作约定（源仓库这边怎么操作）
 
@@ -110,7 +69,8 @@ jobs:
 ## 改完同步器必须过自检
 
 ```bash
-python3 sync_board.py --selftest   # 8 项伪造攻击测试，全过才允许交付
+python3 -B sync_board.py --selftest
+python3 -B -m unittest test_preparation.py
 ```
 
 ## 公网地址

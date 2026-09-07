@@ -35,6 +35,19 @@ h1 .sub{display:block;font-size:13px;font-weight:400;color:var(--tx3);margin-top
 .hmeta{font-size:12px;color:var(--tx3);text-align:right;line-height:2}
 .hmeta b{color:var(--tx2);font-weight:500}
 
+/* preparation + freshness */
+.preparation{background:#fff;border:1px solid #dcd8f6;border-radius:16px;padding:24px;margin-bottom:28px;box-shadow:var(--shadow)}
+.preparation h2{margin-bottom:8px;color:var(--indigo)}
+.preparation h3{font-size:21px;font-weight:600;margin-bottom:12px}
+.prep-counts{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.prep-counts span{background:#f4f3fc;border-radius:8px;padding:8px 12px;font-size:13px;color:var(--tx2)}
+.prep-counts b{color:var(--indigo);font-size:20px;margin-right:5px}
+.prep-detail{font-size:12px;color:var(--tx2);line-height:1.9}
+.prep-detail a{color:var(--blue);text-decoration:none;margin-right:14px}
+.steps{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--tx3);margin:14px 0}.steps b{color:var(--indigo)}
+.freshness{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:-12px 0 24px;font-size:12px;color:var(--tx2)}
+.freshness.warn{color:var(--amber)}.freshness button{border:1px solid var(--line2);background:white;border-radius:8px;padding:6px 12px;cursor:pointer}
+.pill.PLANNED{color:var(--tx2);background:#f1f2f5}
 /* metrics */
 .metrics{display:flex;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:40px}
 .metric{flex:1;padding:20px 8px;text-align:center}
@@ -140,11 +153,37 @@ footer code{font-family:var(--mono);color:var(--tx2);font-size:11px}
 <div class="wrap" id="app"></div>
 <script id="d" type="application/json">__DATA__</script>
 <script>
-const D=JSON.parse(document.getElementById('d').textContent);
-const SNAME={INTAKE:'待登记',TRIAGED:'已初判',READY:'可认领',CLAIMED:'已认领',IN_PROGRESS:'进行中',READY_FOR_REVIEW:'待审查',READY_FOR_GATE:'待过门',OBSERVING:'观察中',DONE:'已完成',BLOCKED:'阻塞'};
+let D=JSON.parse(document.getElementById('d').textContent);
+const SNAME={PLANNED:'待建单',INTAKE:'待登记',TRIAGED:'已初判',READY:'可认领',CLAIMED:'已认领',IN_PROGRESS:'进行中',READY_FOR_REVIEW:'待审查',READY_FOR_GATE:'待过门',OBSERVING:'观察中',DONE:'已完成',BLOCKED:'阻塞'};
 const GNAME={PENDING:'待评审',PASS:'PASS',FAIL:'FAIL',HOLD:'HOLD'};
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-let filter='all';
+let filter='all',refreshState='';
+const formatTime=s=>s?new Date(s).toLocaleString('zh-CN',{hour12:false}):'未记录';
+function preparationPanel(){
+ const p=D.preparation;
+ if(!p)return '<section class="preparation"><h2>准备与审核</h2><p>准备状态尚未接入，请查看最近同步时间。</p></section>';
+ const n=p.counts,active={drafting:0,revising:0,awaiting_review:1,template_approved:2,issuing:2}[p.phase]??0;
+ const stages=['草稿整理','差异复核','正式建单','认领施工'];
+ return `<section class="preparation"><h2>准备与审核 · Wave 0</h2><h3>${esc(p.title)}</h3>
+ <div class="steps">${stages.map((x,i)=>(i===active?`<b>${x} · 当前</b>`:esc(x))).join('<span>→</span>')}</div>
+ <div class="prep-counts"><span><b>${n.parentDrafts}</b>父任务草稿</span><span><b>${n.atomicDrafts}</b>原子草稿</span><span><b>${n.detailedSamples}</b>详细规格样例</span><span><b>${n.selfCheckGroups}</b>组草稿自检记录</span></div>
+ <p class="prep-detail">下一步：${esc(p.nextStep)}<br>草稿自检不等于独立审核、任务准入或产品验收；下方单独统计父工作包收口。</p>
+ <p class="prep-detail">本轮事件 ${esc(formatTime(p.updatedAt))} · 样例版本 ${esc(p.sampleCommit.slice(0,7))}<br>
+ <a href="${esc(p.sampleUrl)}" target="_blank" rel="noopener noreferrer">查看本轮修订 ↗（需私有仓权限）</a><a href="${esc(p.recordUrl)}" target="_blank" rel="noopener noreferrer">准备状态记录 ↗</a></p>
+ </section>`;
+}
+async function refreshBoard(){
+ try{
+  const path=location.pathname.includes('/dist/')?'../board.json':'board.json';
+  const response=await fetch(new URL(path,location.href).href+'?t='+Date.now(),{cache:'no-store'});
+  if(!response.ok)throw new Error('unavailable');
+  const next=await response.json();
+  if(!next.meta||!Array.isArray(next.tasks)||!Array.isArray(next.gates))throw new Error('invalid');
+  D=next;refreshState='页面已检查 '+new Date().toLocaleTimeString('zh-CN',{hour12:false});
+ }catch(e){refreshState='暂时无法获取更新，保留当前快照；请留意上次同步时间';}
+ const y=window.scrollY;render();window.scrollTo(0,y);
+}
+
 function av(o){if(o==='敏敏')return '<span class="own m" title="敏敏">敏</span>';if(o==='夏天')return '<span class="own x" title="夏天">夏</span>';return ''}
 function render(){
 const T=D.tasks,G={};(D.gates||[]).forEach(g=>G[g.id]=g);
@@ -152,11 +191,15 @@ const c={};T.forEach(t=>c[t.status]=(c[t.status]||0)+1);
 const done=c.DONE||0,ready=c.READY||0,wip=(c.CLAIMED||0)+(c.IN_PROGRESS||0),blocked=c.BLOCKED||0,review=(c.READY_FOR_REVIEW||0)+(c.READY_FOR_GATE||0);
 const gp=(D.gates||[]).filter(g=>g.status==='PASS').length;
 const pct=T.length?Math.round(done/T.length*100):0;
+const stale=!D.meta.syncedAtISO||Date.now()-Date.parse(D.meta.syncedAtISO)>45*60*1000;
 let h=`<header><div><h1>悟小空作战指挥室<span class="sub">系统修复实施计划 v1.2 · 夏天确认版 · 数据以 GitHub 为准</span></h1></div>
 <div class="hmeta">当前波次 <b>Wave ${D.meta.currentWave}</b> · 基线 <b>${esc((D.meta.baselineSha||'').slice(0,7))}</b><br>更新 <b>${esc(D.meta.syncedAt||D.meta.updatedAt)}</b> · ${esc(D.meta.updatedBy)}</div></header>`;
+h+=`<div class="freshness ${stale?'warn':''}"><button id="refresh-board" type="button">刷新看板</button><span>${esc(refreshState||'页面每60秒检查已发布数据；后台每20分钟同步GitHub')}</span>${stale?'<span>同步快照已超过45分钟或缺少时间标识</span>':''}</div>`;
+h+=preparationPanel();
+h+=`<h2>正式施工 · 父工作包收口</h2><p class="prep-detail" style="margin-bottom:12px">草稿准备另列上方；未建单的父工作包不计为可认领。完成比例只代表已验收收口，不表示准备工作量。</p>`;
 h+=`<div class="metrics">
-<div class="metric"><div class="v">${pct}<span style="font-size:15px;color:var(--tx3)">%</span></div><div class="k">总进度 ${done}/${T.length}</div></div>
-<div class="metric"><div class="v" style="color:var(--blue)">${ready}</div><div class="k">可认领</div></div>
+<div class="metric"><div class="v">${pct}<span style="font-size:15px;color:var(--tx3)">%</span></div><div class="k">父工作包 ${done}/${T.length}</div></div>
+<div class="metric"><div class="v" style="color:var(--blue)">${c.PLANNED||0}</div><div class="k">待建单</div></div>
 <div class="metric"><div class="v" style="color:var(--blue)">${wip}</div><div class="k">在制</div></div>
 <div class="metric"><div class="v" style="color:var(--amber)">${review}</div><div class="k">待审查 / 过门</div></div>
 <div class="metric"><div class="v" style="color:var(--red)">${blocked}</div><div class="k">阻塞</div></div>
@@ -180,7 +223,7 @@ h+=`</div>`});
 h+=`</div><div class="mw-gate"><span class="gate ${g.status}" title="${esc(g.rule||'')}">出口 ${w.gate} · ${GNAME[g.status]||g.status}</span></div></div>`});
 h+=`</div></section>`;
 h+=`<section><h2>工作包</h2><div class="filters">`;
-[['all','全部'],['敏敏','敏敏'],['夏天','夏天'],['none','待认领'],['crit','关键路径'],['active','在制 / 待审'],['blocked','阻塞']].forEach(f=>{h+=`<button class="chip ${filter===f[0]?'on':''}" data-f="${f[0]}">${f[1]}</button>`});
+[['all','全部'],['敏敏','敏敏'],['夏天','夏天'],['none','未分配'],['crit','关键路径'],['active','在制 / 待审'],['blocked','阻塞']].forEach(f=>{h+=`<button class="chip ${filter===f[0]?'on':''}" data-f="${f[0]}">${f[1]}</button>`});
 h+=`</div>`;
 (D.waves||[]).forEach(w=>{
 const wt=T.filter(t=>{if(t.wave!==w.id)return false;
@@ -195,16 +238,20 @@ h+=`<div class="wave"><div class="wave-head"><span class="wn">WAVE ${w.id}</span
 wt.forEach(t=>{
 const dur=t.claimedAt&&t.doneAt?Math.max(0,Math.round((new Date(t.doneAt)-new Date(t.claimedAt))/86400000)):null;
 const times=[t.claimedAt?`认领 ${t.claimedAt}`:'',t.doneAt?`完成 ${t.doneAt}`:'',dur!==null?`耗时 ${dur} 天`:'',t.status==='BLOCKED'&&t.blockedAt?`阻塞自 ${t.blockedAt}`:''].filter(Boolean).join(' · ');
-h+=`<div class="task ${t.critical?'crit':''}" id="task-${t.id}"><span class="tid">${esc(t.id)}</span><span class="tbody"><div class="ttitle">${esc(t.title)}${t.critical?'<span class="crit-tag">◆ 关键路径</span>':''}</div><div class="tmeta">${esc(t.s)} · ${esc(t.p)}${t.deps&&t.deps.length?' · 前置 '+esc(t.deps.join(' ')):""}${t.ghIssue?` · <span class="gh">#${t.ghIssue}</span>`:''}</div>${times?`<div class="ttime">${esc(times)}</div>`:''}${t.status==='BLOCKED'&&t.blocker?`<div class="tblock">⊘ ${esc(t.blocker)}</div>`:''}${(t.flags||[]).map(f=>`<div class="tblock">⚠ ${esc(f)}</div>`).join('')}${t.note?`<div class="tnote">✎ ${esc(t.note)}</div>`:''}</span><span class="tright"><span class="pill ${t.status}">${SNAME[t.status]||t.status}</span><span class="avatars">${av(t.owner)}${t.reviewer?'审 '+av(t.reviewer):''}${!t.owner?'待认领':''}</span></span></div>`});
+h+=`<div class="task ${t.critical?'crit':''}" id="task-${t.id}"><span class="tid">${esc(t.id)}</span><span class="tbody"><div class="ttitle">${esc(t.title)}${t.critical?'<span class="crit-tag">◆ 关键路径</span>':''}</div><div class="tmeta">${esc(t.s)} · ${esc(t.p)}${t.deps&&t.deps.length?' · 前置 '+esc(t.deps.join(' ')):""}${t.ghIssue?` · <span class="gh">#${t.ghIssue}</span>`:''}</div>${times?`<div class="ttime">${esc(times)}</div>`:''}${t.status==='BLOCKED'&&t.blocker?`<div class="tblock">⊘ ${esc(t.blocker)}</div>`:''}${(t.flags||[]).map(f=>`<div class="tblock">⚠ ${esc(f)}</div>`).join('')}${t.note?`<div class="tnote">✎ ${esc(t.note)}</div>`:''}</span><span class="tright"><span class="pill ${t.status}">${SNAME[t.status]||t.status}</span><span class="avatars">${av(t.owner)}${t.reviewer?'审 '+av(t.reviewer):''}${!t.owner?(t.status==='PLANNED'?'未建单':'未分配'):''}</span></span></div>`});
 h+=`</div>`});
 h+=`</section>`;
 if(D.log&&D.log.length){h+=`<section><h2>变更记录</h2><ul class="log">`;D.log.slice(-10).reverse().forEach(l=>{h+=`<li><b>${esc(l.at)}</b>${esc(l.by)} · ${esc(l.what)}</li>`});h+=`</ul></section>`}
-h+=`<footer>只读看板 · 事实源 <code>github.com/mingminwang962-eng/ip-system-runtime</code> 的 Issue / PR / Milestone<br>${esc(D.meta.productionBoundary)}<br>修改请通过 GitHub 任务流进行，本页由同步脚本自动重建</footer>`;
+h+=`<footer>只读看板 · 事实源 <code>github.com/${esc(D.meta.generatedFrom?.repo||'lyx680805-first/ip-system-runtime')}</code> 的 Issue / PR / Milestone<br>${esc(D.meta.productionBoundary)}<br>准备状态来自私有工作仓的最小状态记录；正式施工来自上方施工仓。页面自动读取公开快照，不持有私有仓凭据。</footer>`;
 document.getElementById('app').innerHTML=h;
+document.getElementById('refresh-board').onclick=refreshBoard;
 document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{filter=b.dataset.f;render()});
 document.querySelectorAll('[data-jump]').forEach(n=>n.onclick=e=>{e.preventDefault();const el=document.getElementById('task-'+n.dataset.jump);if(!el)return;el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1600)});
 }
 render();
+setInterval(()=>{if(!document.hidden)refreshBoard()},60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshBoard()});
+refreshBoard();
 </script>
 </body>
 </html>
