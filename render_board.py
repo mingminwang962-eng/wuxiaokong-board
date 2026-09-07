@@ -162,8 +162,8 @@ const formatTime=s=>s?new Date(s).toLocaleString('zh-CN',{hour12:false}):'未记
 function preparationPanel(){
  const p=D.preparation;
  if(!p)return '<section class="preparation"><h2>准备与审核</h2><p>准备状态尚未接入，请查看最近同步时间。</p></section>';
- const n=p.counts,active={drafting:0,revising:0,awaiting_review:1,template_approved:2,issuing:2}[p.phase]??0;
- const stages=['草稿整理','差异复核','正式建单','认领施工'];
+ const n=p.counts,active={drafting:0,revising:0,awaiting_review:1,template_approved:1,issuing:2}[p.phase]??0;
+ const stages=['草稿整理','审核与准入','正式建单','认领施工'];
  return `<section class="preparation"><h2>准备与审核 · Wave 0</h2><h3>${esc(p.title)}</h3>
  <div class="steps">${stages.map((x,i)=>(i===active?`<b>${x} · 当前</b>`:esc(x))).join('<span>→</span>')}</div>
  <div class="prep-counts"><span><b>${n.parentDrafts}</b>父任务草稿</span><span><b>${n.atomicDrafts}</b>原子草稿</span><span><b>${n.detailedSamples}</b>详细规格样例</span><span><b>${n.selfCheckGroups}</b>组草稿自检记录</span></div>
