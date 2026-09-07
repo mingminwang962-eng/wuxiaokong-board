@@ -22,7 +22,7 @@ PLAN = ROOT / "plan.json"
 PEOPLE = ROOT / "people.json"
 BOARD = ROOT / "board.json"
 SOURCE_REPO = os.environ.get("BOARD_SOURCE_REPO", "lyx680805-first/ip-system-runtime")
-SOURCE_BRANCH = os.environ.get("BOARD_SOURCE_BRANCH", "main")
+SOURCE_BRANCH = os.environ.get("BOARD_SOURCE_BRANCH", "codex/wave0-integration")
 WIDGET_BOARD = pathlib.Path(os.environ.get("WIDGET_BOARD_PATH",
     "/Users/minmin/Library/Application Support/kimi-desktop/daimon-share/daimon/agents/main/blueprint/widgets/widget_c4d64365-1961-474e-ade1-617a82e3cbfb/workspace/board.json"))
 TASK_RE = re.compile(r"\[(T\d{2}\.\d)\]")
@@ -204,6 +204,20 @@ def build_board(plan, people, issues, prs, head_sha, today, now, src_branch="mai
                 waiting = [d for d in deps if not ((tmap[d]["status"] == "DONE") if d in tmap else (gmap.get(d) == "PASS"))]
                 t["blocker"] = "等 " + "、".join(waiting)
 
+    # Only registered atomic IDs are projected; private Issue bodies stay private.
+    atomic_ids = set(plan.get("atomicTaskIds", []))
+    atomic_out = []
+    for it in issues:
+        match = re.match(r"^\[([^]]+)\]", it["title"])
+        if not match or match.group(1) not in atomic_ids:
+            continue
+        task_id = match.group(1)
+        related = next((p for p in prs if p["title"].startswith("[" + task_id + "]")), None)
+        status, owner, _, _, _ = decide_task(it, related, people)
+        atomic_out.append({"id": task_id, "status": status, "owner": owner,
+                           "issueUrl": f"https://github.com/{SOURCE_REPO}/issues/{it['number']}",
+                           "prUrl": f"https://github.com/{SOURCE_REPO}/pull/{related['number']}" if related else None})
+
     cur = 0
     for w in plan["waves"]:
         if any(t["wave"] == w["id"] and t["status"] != "DONE" for t in tasks_out):
@@ -219,6 +233,7 @@ def build_board(plan, people, issues, prs, head_sha, today, now, src_branch="mai
                                    "headSha": head_sha, "issues": len(issues), "prs": len(prs)}},
         "owners": plan["owners"], "statusFlow": plan["statusFlow"],
         "waves": plan["waves"], "gates": gates_out, "tasks": tasks_out,
+        "atomicIssues": sorted(atomic_out, key=lambda a: a["id"]),
         "log": [], "_changes": changes,
     }
 

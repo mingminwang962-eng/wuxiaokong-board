@@ -61,6 +61,17 @@ class PreparationTests(unittest.TestCase):
         issue["labels"] = [{"name": "status:ready"}]
         self.assertEqual(sync_board.decide_task(issue, None, {})[0], "READY")
 
+    def test_atomic_review_does_not_complete_parent(self):
+        plan = json.loads(sync_board.PLAN.read_text())
+        issue = {"title": "[F0-FE-01] PRIVATE_BODY", "body": "SECRET_BODY", "number": 4,
+                 "state": "OPEN", "labels": [{"name": "state:in-review"}], "assignees": []}
+        board = sync_board.build_board(plan, {}, [issue], [], "a" * 40, "2026-09-07", "now")
+        self.assertEqual(board["atomicIssues"][0]["status"], "READY_FOR_REVIEW")
+        self.assertNotIn("PRIVATE_BODY", json.dumps(board))
+        self.assertNotIn("SECRET_BODY", json.dumps(board))
+        self.assertEqual({t["status"] for t in board["tasks"]}, {"PLANNED"})
+        self.assertFalse(any(sync_board.gate_eligibility(board).values()))
+
     def test_failed_private_fetch_keeps_existing_snapshot(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = pathlib.Path(tmp)

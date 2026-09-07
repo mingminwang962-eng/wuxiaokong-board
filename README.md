@@ -74,3 +74,7 @@
 `python3 sync_board.py --selftest`：八项伪造攻击测试（手工关单、测试失败、自我审核、缺证据、人工关 Gate、候选变化失效等），全过才允许交付同步器改动。
 
 准备状态与失败保留测试：`python3 -B -m unittest test_preparation.py`。
+
+## 首卡转出后的显示
+
+`plan.json`的atomicTaskIds登记执行版原子ID。公开投影只显示已建Issue的ID、状态、登记负责人和Issue/PR链接，不公开私有正文。原子待审不推进父Epic或Gate；父子收口聚合仍待适配。当前候选分支改为已从8acd建立的`codex/wave0-integration`，旧main和原staging基线不移动。首卡#4/PR#5处于待独立审核；适用保护与有效检查是合并门，不是要求实施前已有测试结果。

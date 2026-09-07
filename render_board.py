@@ -196,6 +196,8 @@ let h=`<header><div><h1>悟小空作战指挥室<span class="sub">系统修复�
 <div class="hmeta">当前波次 <b>Wave ${D.meta.currentWave}</b> · 基线 <b>${esc((D.meta.baselineSha||'').slice(0,7))}</b><br>更新 <b>${esc(D.meta.syncedAt||D.meta.updatedAt)}</b> · ${esc(D.meta.updatedBy)}</div></header>`;
 h+=`<div class="freshness ${stale?'warn':''}"><button id="refresh-board" type="button">刷新看板</button><span>${esc(refreshState||'页面每60秒检查已发布数据；后台每20分钟同步GitHub')}</span>${stale?'<span>同步快照已超过45分钟或缺少时间标识</span>':''}</div>`;
 h+=preparationPanel();
+if(D.atomicIssues?.length){h+='<section class="preparation"><h2>已转出原子任务 · GitHub 实际状态</h2>';D.atomicIssues.forEach(t=>{h+=`<p class="prep-detail"><b>${esc(t.id)}</b> · ${esc(SNAME[t.status]||t.status)} · ${esc(t.owner||'未分配')} <a href="${esc(t.issueUrl)}" target="_blank" rel="noopener noreferrer">任务 Issue ↗</a>${t.prUrl?`<a href="${esc(t.prUrl)}" target="_blank" rel="noopener noreferrer">交付 PR ↗</a>`:''}</p>`});h+='<p class="prep-detail">原子任务与父工作包分开显示；待审查不代表独立验收或合并门已通过。</p></section>';}
+
 h+=`<h2>正式施工 · 父工作包收口</h2><p class="prep-detail" style="margin-bottom:12px">草稿准备另列上方；未建单的父工作包不计为可认领。完成比例只代表已验收收口，不表示准备工作量。</p>`;
 h+=`<div class="metrics">
 <div class="metric"><div class="v">${pct}<span style="font-size:15px;color:var(--tx3)">%</span></div><div class="k">父工作包 ${done}/${T.length}</div></div>
