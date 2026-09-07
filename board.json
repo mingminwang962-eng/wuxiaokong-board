@@ -7,7 +7,7 @@
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-07",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-07 22:39",
+    "syncedAt": "2026-09-07 22:47",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
@@ -16,7 +16,7 @@
       "issues": 5,
       "prs": 1
     },
-    "syncedAtISO": "2026-09-07T14:39:33.835177+00:00"
+    "syncedAtISO": "2026-09-07T14:47:53.986039+00:00"
   },
   "owners": [
     "敏敏",
@@ -1727,9 +1727,9 @@
     },
     "updatedAt": "2026-09-07T22:39:17+08:00",
     "sampleCommit": "355359e69274e1ee9d080113b9cadc3f915d9d5f",
-    "recordCommit": "32b2319c4dabc97a64badd6db2a3cc80f9563e4a",
+    "recordCommit": "f51db76acf5dac13b9b83b2d0380a9c7de57c570",
     "sampleUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/355359e69274e1ee9d080113b9cadc3f915d9d5f",
-    "recordUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/blob/32b2319c4dabc97a64badd6db2a3cc80f9563e4a/status/board-preparation.json",
+    "recordUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/blob/f51db76acf5dac13b9b83b2d0380a9c7de57c570/status/board-preparation.json",
     "events": [
       {
         "at": "2026-09-07T21:31:10+08:00",
