@@ -7,7 +7,7 @@
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-07",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-07 16:29",
+    "syncedAt": "2026-09-07 16:40",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
@@ -16,7 +16,7 @@
       "issues": 3,
       "prs": 0
     },
-    "syncedAtISO": "2026-09-07T08:29:23.533157+00:00"
+    "syncedAtISO": "2026-09-07T08:40:48.298219+00:00"
   },
   "owners": [
     "敏敏",
@@ -1287,28 +1287,43 @@
       "at": "2026-09-07 16:28",
       "by": "GitHub 同步",
       "what": "本轮草稿已修订，等待差异复核（准备进度，不计入施工完成）；T00.1: 状态 READY→PLANNED；T00.2: 状态 READY→PLANNED；T00.3: 状态 BLOCKED→PLANNED；T00.4: 状态 BLOCKED→PLANNED；T00.5: 状态 BLOCKED→PLANNED；T00.6: 状态 BLOCKED→PLANNED；T01.1: 状态 BLOCKED→PLANNED；T01.2: 状态 BLOCKED→PLANNED；T01.3: 状态 BLOCKED→PLANNED；T01.4: 状态 BLOCKED→PLANNED；T01.5: 状态 BLOCKED→PLANNED；T01.6: 状态 BLOCKED→PLANNED；T02.1: 状态 BLOCKED→PLANNED；T02.2: 状态 BLOCKED→PLANNED；T02.3: 状态 BLOCKED→PLANNED；T02.4: 状态 BLOCKED→PLANNED；T02.5: 状态 BLOCKED→PLANNED；T02.6: 状态 BLOCKED→PLANNED；T03.1: 状态 BLOCKED→PLANNED；T03.2: 状态 BLOCKED→PLANNED；T03.3: 状态 BLOCKED→PLANNED；T03.4: 状态 BLOCKED→PLANNED；T03.5: 状态 BLOCKED→PLANNED；T03.6: 状态 BLOCKED→PLANNED；T04.1: 状态 BLOCKED→PLANNED；T04.2: 状态 BLOCKED→PLANNED；T04.3: 状态 BLOCKED→PLANNED；T04.4: 状态 BLOCKED→PLANNED；T04.5: 状态 BLOCKED→PLANNED；T04.6: 状态 BLOCKED→PLANNED；T05.1: 状态 BLOCKED→PLANNED；T05.2: 状态 BLOCKED→PLANNED；T05.3: 状态 BLOCKED→PLANNED；T05.4: 状态 BLOCKED→PLANNED；T05.5: 状态 BLOCKED→PLANNED；T05.6: 状态 BLOCKED→PLANNED；T06.1: 状态 BLOCKED→PLANNED；T06.2: 状态 BLOCKED→PLANNED；T06.3: 状态 BLOCKED→PLANNED；T06.4: 状态 BLOCKED→PLANNED；T06.5: 状态 BLOCKED→PLANNED；T06.6: 状态 BLOCKED→PLANNED；T07.1: 状态 BLOCKED→PLANNED；T07.2: 状态 BLOCKED→PLANNED；T07.3: 状态 BLOCKED→PLANNED；T07.4: 状态 BLOCKED→PLANNED；T07.5: 状态 BLOCKED→PLANNED；T07.6: 状态 BLOCKED→PLANNED"
+    },
+    {
+      "at": "2026-09-07 16:40",
+      "by": "GitHub 同步",
+      "what": "模板已通过，继续分批整理（准备进度，不计入施工完成）"
     }
   ],
   "preparation": {
-    "phase": "awaiting_review",
-    "title": "本轮草稿已修订，等待差异复核",
-    "nextStep": "夏天复核新版本；通过后再按条件转正式任务",
+    "phase": "template_approved",
+    "title": "模板已通过，继续分批整理",
+    "nextStep": "优先补齐首张任务准入；条件齐即开工，不等待全部草稿",
     "counts": {
       "parentDrafts": 6,
       "atomicDrafts": 16,
-      "detailedSamples": 2,
+      "detailedSamples": 5,
       "selfCheckGroups": 7
     },
-    "updatedAt": "2026-09-07T16:09:45+08:00",
-    "sampleCommit": "360f1119f51e5568e58dc988537b8ab1f779ee38",
-    "recordCommit": "562f212189919a0048f82feb0c4646510bbafba2",
-    "sampleUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/360f1119f51e5568e58dc988537b8ab1f779ee38",
-    "recordUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/blob/562f212189919a0048f82feb0c4646510bbafba2/status/board-preparation.json",
+    "updatedAt": "2026-09-07T16:40:26+08:00",
+    "sampleCommit": "e497d9b5f2449acceb57e651916ba4e7fb6f7412",
+    "recordCommit": "485f659603c08c71dc9cf5f6a6fd80be510742eb",
+    "sampleUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/e497d9b5f2449acceb57e651916ba4e7fb6f7412",
+    "recordUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/blob/485f659603c08c71dc9cf5f6a6fd80be510742eb/status/board-preparation.json",
     "events": [
       {
         "at": "2026-09-07T16:09:45+08:00",
         "title": "草稿修订和自检记录已提交",
         "url": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/360f1119f51e5568e58dc988537b8ab1f779ee38"
+      },
+      {
+        "at": "2026-09-07T16:37:31+08:00",
+        "title": "已记录模板复核通过",
+        "url": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/360f1119f51e5568e58dc988537b8ab1f779ee38"
+      },
+      {
+        "at": "2026-09-07T16:40:26+08:00",
+        "title": "草稿修订和自检记录已提交",
+        "url": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/e497d9b5f2449acceb57e651916ba4e7fb6f7412"
       }
     ]
   }
