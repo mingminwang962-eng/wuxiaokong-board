@@ -5,9 +5,9 @@
     "boardVersion": "2.0.0",
     "baselineSha": "8acd3fc554f6f35a3add119980869bbdb857faa8（2026-09-07 系统所有者批准：统一施工起点；main 不整分支合并，5 个独有提交价值转任务迁入）",
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
-    "updatedAt": "2026-09-07",
+    "updatedAt": "2026-09-08",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-07 23:48",
+    "syncedAt": "2026-09-08 00:11",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
@@ -16,7 +16,7 @@
       "issues": 6,
       "prs": 1
     },
-    "syncedAtISO": "2026-09-07T15:48:32.631547+00:00"
+    "syncedAtISO": "2026-09-07T16:11:57.606223+00:00"
   },
   "owners": [
     "敏敏",
@@ -261,7 +261,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T00.2",
@@ -282,7 +282,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T00.3",
@@ -305,7 +305,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T00.4",
@@ -328,7 +328,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T00.5",
@@ -351,7 +351,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T00.6",
@@ -374,7 +374,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T01.1",
@@ -397,7 +397,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T01.2",
@@ -420,7 +420,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T01.3",
@@ -443,7 +443,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T01.4",
@@ -466,7 +466,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T01.5",
@@ -489,7 +489,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T01.6",
@@ -512,7 +512,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T02.1",
@@ -535,7 +535,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T02.2",
@@ -558,7 +558,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T02.3",
@@ -582,7 +582,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T02.4",
@@ -605,7 +605,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T02.5",
@@ -628,7 +628,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T02.6",
@@ -654,7 +654,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T03.1",
@@ -677,7 +677,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T03.2",
@@ -700,7 +700,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T03.3",
@@ -723,7 +723,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T03.4",
@@ -747,7 +747,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T03.5",
@@ -771,7 +771,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T03.6",
@@ -794,7 +794,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T04.1",
@@ -817,7 +817,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T04.2",
@@ -841,7 +841,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T04.3",
@@ -864,7 +864,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T04.4",
@@ -888,7 +888,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T04.5",
@@ -912,7 +912,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T04.6",
@@ -939,7 +939,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T05.1",
@@ -962,7 +962,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T05.2",
@@ -986,7 +986,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T05.3",
@@ -1009,7 +1009,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T05.4",
@@ -1033,7 +1033,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T05.5",
@@ -1057,7 +1057,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T05.6",
@@ -1081,7 +1081,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T06.1",
@@ -1105,7 +1105,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T06.2",
@@ -1130,7 +1130,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T06.3",
@@ -1154,7 +1154,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T06.4",
@@ -1177,7 +1177,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T06.5",
@@ -1202,7 +1202,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T06.6",
@@ -1227,7 +1227,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T07.1",
@@ -1250,7 +1250,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T07.2",
@@ -1273,7 +1273,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T07.3",
@@ -1296,7 +1296,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T07.4",
@@ -1319,7 +1319,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T07.5",
@@ -1345,7 +1345,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     },
     {
       "id": "T07.6",
@@ -1368,7 +1368,7 @@
       "blockedAt": null,
       "ghIssue": null,
       "flags": [],
-      "updatedAt": "2026-09-07"
+      "updatedAt": "2026-09-08"
     }
   ],
   "atomicIssues": [
