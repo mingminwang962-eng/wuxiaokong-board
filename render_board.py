@@ -56,8 +56,9 @@ h1 .sub{display:block;font-size:13px;font-weight:400;color:var(--tx3);margin-top
 .metric .k{font-size:12px;color:var(--tx3);margin-top:2px}
 
 /* timeline */
-.timeline{display:flex;gap:0;margin-bottom:48px;overflow-x:auto;padding:4px 2px 12px}
-.tl-node{flex:1;min-width:104px;position:relative;padding:0 6px}
+.timeline-note{font-size:12px;color:var(--tx2);margin:-8px 0 14px}
+.timeline{display:flex;gap:0;margin-bottom:20px;overflow-x:auto;padding:4px 2px 12px}
+.tl-node{flex:1;min-width:150px;position:relative;padding:0 8px}
 .tl-node::before{content:"";position:absolute;top:14px;left:0;right:0;height:2px;background:var(--line2)}
 .tl-node:first-child::before{left:50%}.tl-node:last-child::before{right:50%}
 .tl-dot{position:relative;z-index:1;width:28px;height:28px;margin:0 auto;border-radius:50%;background:#fff;border:2px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:11px;font-family:var(--mono);color:var(--tx3)}
@@ -65,6 +66,8 @@ h1 .sub{display:block;font-size:13px;font-weight:400;color:var(--tx3);margin-top
 .tl-node.done .tl-dot{border-color:var(--green);background:var(--green);color:#fff}
 .tl-node.done::before{background:var(--green)}
 .tl-name{text-align:center;font-size:11px;color:var(--tx2);margin-top:8px;line-height:1.5}
+.tl-count{text-align:center;font-size:10px;color:var(--tx3);margin-top:5px;line-height:1.5}
+.tl-node.active .tl-count{color:var(--indigo)}
 .tl-gate{text-align:center;margin-top:4px}
 .gate{display:inline-block;font-size:10px;font-family:var(--mono);padding:2px 9px;border-radius:99px;border:1px solid var(--line2);color:var(--tx3);background:#fff}
 .gate.PASS{color:var(--green);border-color:#bbe5d2;background:#f0faf5}
@@ -102,6 +105,19 @@ h2{font-size:13px;font-weight:600;color:var(--tx3);letter-spacing:.12em;margin-b
 .own.m{background:#e8f0fe;color:var(--blue)}
 .own.x{background:#f0edfd;color:var(--violet)}
 .mw-gate{margin-top:12px;text-align:center}
+
+/* delivery policy + professional lanes */
+.policy{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:36px;box-shadow:var(--shadow)}
+.policy-head{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.policy-head strong{font-size:15px}.policy ol{padding-left:20px;color:var(--tx2);font-size:12px;line-height:1.9}
+.policy-note{font-size:12px;color:var(--tx2);margin-top:12px;padding:10px 12px;border-radius:9px;background:#fff8eb;border:1px solid #f0dcb4}
+.lane-table-wrap{overflow-x:auto;padding-bottom:10px}
+.lane-table{min-width:1120px;display:grid;grid-template-columns:170px repeat(8,1fr);border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+.lane-cell{min-height:66px;padding:9px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:10px;color:var(--tx2)}
+.lane-cell:nth-child(9n){border-right:0}.lane-cell.head{min-height:auto;background:#f7f8fa;font-family:var(--mono);font-weight:600;color:var(--tx3);text-align:center}
+.lane-cell.lname{font-size:11px;font-weight:600;color:var(--tx);background:#fbfbfc}.lane-cell.lname b{font-family:var(--mono);color:var(--indigo);margin-right:6px}
+.lane-task{display:block;color:var(--tx2);text-decoration:none;padding:2px 0;line-height:1.35;cursor:pointer}.lane-task:hover{color:var(--indigo)}
+.lane-task::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--tx3);margin-right:5px}.lane-task.DONE::before{background:var(--green)}.lane-task.IN_PROGRESS::before,.lane-task.READY::before{background:var(--blue)}.lane-task.READY_FOR_REVIEW::before,.lane-task.READY_FOR_GATE::before{background:var(--amber)}.lane-task.BLOCKED::before{background:var(--red)}
 
 /* filters */
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
@@ -194,9 +210,11 @@ const pct=T.length?Math.round(done/T.length*100):0;
 const stale=!D.meta.syncedAtISO||Date.now()-Date.parse(D.meta.syncedAtISO)>45*60*1000;
 let h=`<header><div><h1>悟小空作战指挥室<span class="sub">系统修复实施计划 v1.2 · 夏天确认版 · 数据以 GitHub 为准</span></h1></div>
 <div class="hmeta">当前波次 <b>Wave ${D.meta.currentWave}</b> · 基线 <b>${esc((D.meta.baselineSha||'').slice(0,7))}</b><br>更新 <b>${esc(D.meta.syncedAt||D.meta.updatedAt)}</b> · ${esc(D.meta.updatedBy)}</div></header>`;
-h+=`<div class="freshness ${stale?'warn':''}"><button id="refresh-board" type="button">刷新看板</button><span>${esc(refreshState||'页面每60秒检查已发布数据；后台每20分钟同步GitHub')}</span>${stale?'<span>同步快照已超过45分钟或缺少时间标识</span>':''}</div>`;
+h+=`<div class="freshness ${stale?'warn':''}"><button id="refresh-board" type="button">刷新看板</button><span>${esc(refreshState||'页面每60秒检查已发布快照；本机同步任务负责拉取GitHub并发布')}</span>${stale?'<span>同步快照已超过45分钟或缺少时间标识</span>':''}</div>`;
 h+=preparationPanel();
 if(D.atomicIssues?.length){h+='<section class="preparation"><h2>已转出原子任务 · GitHub 实际状态</h2>';D.atomicIssues.forEach(t=>{h+=`<p class="prep-detail"><b>${esc(t.id)}</b> · ${esc(SNAME[t.status]||t.status)} · ${esc(t.owner||'未分配')} <a href="${esc(t.issueUrl)}" target="_blank" rel="noopener noreferrer">任务 Issue ↗</a>${t.prUrl?`<a href="${esc(t.prUrl)}" target="_blank" rel="noopener noreferrer">交付 PR ↗</a>`:''}</p>`});h+='<p class="prep-detail">原子任务与父工作包分开显示；待审查不代表独立验收或合并门已通过。</p></section>';}
+const policy=D.deliveryPolicy||{};
+if(policy.standardFlow?.length){h+=`<section class="policy"><div class="policy-head"><strong>交付、复核与合并路径</strong><span class="gate ${policy.remotePushStatus==='HOLD'?'HOLD':'PASS'}">远端推送 ${esc(policy.remotePushStatus||'—')}</span></div><ol>${policy.standardFlow.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><p class="prep-detail">统一接收分支：<b>${esc(policy.targetBranch||'未定')}</b></p>${policy.temporaryException?`<p class="policy-note"><b>当前例外：</b>${esc(policy.temporaryException)}</p>`:''}${policy.protectionNote?`<p class="prep-detail" style="margin-top:9px">${esc(policy.protectionNote)}</p>`:''}</section>`;}
 
 h+=`<h2>正式施工 · 父工作包收口</h2><p class="prep-detail" style="margin-bottom:12px">草稿准备另列上方；未建单的父工作包不计为可认领。完成比例只代表已验收收口，不表示准备工作量。</p>`;
 h+=`<div class="metrics">
@@ -206,12 +224,13 @@ h+=`<div class="metrics">
 <div class="metric"><div class="v" style="color:var(--amber)">${review}</div><div class="k">待审查 / 过门</div></div>
 <div class="metric"><div class="v" style="color:var(--red)">${blocked}</div><div class="k">阻塞</div></div>
 <div class="metric"><div class="v" style="color:var(--green)">${gp}<span style="font-size:14px;color:var(--tx3)">/8</span></div><div class="k">Gate 通过</div></div></div>`;
-h+=`<section><h2>波次时间线</h2><div class="timeline">`;
-(D.waves||[]).forEach(w=>{const g=G[w.gate]||{status:'PENDING'};const cls=g.status==='PASS'?'done':(w.id===D.meta.currentWave?'active':'');
-h+=`<div class="tl-node ${cls}"><div class="tl-dot">W${w.id}</div><div class="tl-name">${esc(w.name)}</div><div class="tl-gate"><span class="gate ${g.status}">${w.gate} ${GNAME[g.status]||g.status}</span></div></div>`});
+h+=`<section><h2>波次时间线 · 按门禁推进</h2><p class="timeline-note">未批准日历工期，因此不编造日期。当前波次完成出口 Gate 后进入下一波；无依赖项可以提前准备，不能越过合并门。</p><div class="timeline">`;
+(D.waves||[]).forEach(w=>{const g=G[w.gate]||{status:'PENDING'};const cls=g.status==='PASS'?'done':(w.id===D.meta.currentWave?'active':'');const wt=T.filter(t=>t.wave===w.id);const wc={};wt.forEach(t=>wc[t.status]=(wc[t.status]||0)+1);let summary=`父包 ${wc.DONE||0}/${wt.length}`;if(w.id===0&&D.atomicIssues?.length){const ac={};D.atomicIssues.forEach(t=>ac[t.status]=(ac[t.status]||0)+1);summary+=` · 原子 在制 ${(ac.IN_PROGRESS||0)+(ac.CLAIMED||0)} / 待审 ${(ac.READY_FOR_REVIEW||0)+(ac.READY_FOR_GATE||0)}`;}
+h+=`<div class="tl-node ${cls}" title="${esc(w.goal||'')}"><div class="tl-dot">W${w.id}</div><div class="tl-name">${esc(w.name)}</div><div class="tl-count">${esc(summary)}</div><div class="tl-gate"><span class="gate ${g.status}">${w.gate} ${GNAME[g.status]||g.status}</span></div></div>`});
 h+=`</div></section>`;
 const BYID={};T.forEach(t=>BYID[t.id]=t);
-h+=`<section><h2>波次作战图 · 并行泳道与依赖</h2><div class="legend"><span><i style="background:var(--blue)"></i>可认领/进行中</span><span><i style="background:var(--amber)"></i>待审查/过门</span><span><i style="background:var(--red)"></i>阻塞</span><span><i style="background:var(--green)"></i>已完成</span><span>◆ 关键路径 · ⟵ 波内前置 · 点节点跳转任务卡</span></div><div class="map">`;
+if(D.professionalLanes?.length){h+=`<section><h2>A–F 专业甬道 · 跨波工作面</h2><p class="timeline-note">纵向是六类专业写面，横向是 W0–W7。圆点颜色来自 GitHub 状态；点击任务可跳到工作包。</p><div class="lane-table-wrap"><div class="lane-table"><div class="lane-cell head">甬道 / 波次</div>${(D.waves||[]).map(w=>`<div class="lane-cell head">W${w.id}</div>`).join('')}`;D.professionalLanes.forEach(l=>{h+=`<div class="lane-cell lname"><b>${esc(l.id)}</b>${esc(l.name)}</div>`;(D.waves||[]).forEach(w=>{const items=(l.taskIds||[]).map(id=>BYID[id]).filter(t=>t&&t.wave===w.id);h+=`<div class="lane-cell">${items.map(t=>`<a class="lane-task ${t.status}" data-jump="${t.id}" title="${esc(t.title)}">${t.id} ${esc(t.title)}</a>`).join('')}</div>`});});h+=`</div></div></section>`;}
+h+=`<section><h2>波次作战图 · 波内并行组与依赖</h2><div class="legend"><span><i style="background:var(--blue)"></i>可认领/进行中</span><span><i style="background:var(--amber)"></i>待审查/过门</span><span><i style="background:var(--red)"></i>阻塞</span><span><i style="background:var(--green)"></i>已完成</span><span>◆ 关键路径 · ⟵ 波内前置 · ⤺ 跨波前置 · 点节点跳转任务卡</span></div><div class="map">`;
 (D.waves||[]).forEach(w=>{
 const wt=T.filter(t=>t.wave===w.id);const g=G[w.gate]||{status:'PENDING'};
 const lanes={};wt.forEach(t=>{const L=(t.group||'?').replace(/[0-9]+$/,'');(lanes[L]=lanes[L]||[]).push(t)});
@@ -220,7 +239,8 @@ Object.keys(lanes).sort().forEach(L=>{
 h+=`<div class="lane"><div class="lane-tag">${L} 组</div>`;
 lanes[L].forEach(t=>{
 const inw=(t.deps||[]).filter(d=>BYID[d]&&BYID[d].wave===w.id);
-h+=`<a class="node ${t.status} ${t.critical?'crit':''}" data-jump="${t.id}"><span class="nid">${t.id}${av(t.owner)}</span><span class="nti">${esc(t.title)}</span>${inw.length?`<span class="ndep">⟵ ${inw.join(' ')}</span>`:''}</a>`});
+const cross=(t.deps||[]).filter(d=>!BYID[d]||BYID[d].wave!==w.id);
+h+=`<a class="node ${t.status} ${t.critical?'crit':''}" data-jump="${t.id}"><span class="nid">${t.id}${av(t.owner)}</span><span class="nti">${esc(t.title)}</span>${inw.length?`<span class="ndep">⟵ ${inw.join(' ')}</span>`:''}${cross.length?`<span class="ndep">⤺ ${cross.join(' ')}</span>`:''}</a>`});
 h+=`</div>`});
 h+=`</div><div class="mw-gate"><span class="gate ${g.status}" title="${esc(g.rule||'')}">出口 ${w.gate} · ${GNAME[g.status]||g.status}</span></div></div>`});
 h+=`</div></section>`;

@@ -232,6 +232,8 @@ def build_board(plan, people, issues, prs, head_sha, today, now, src_branch="mai
                  "generatedFrom": {"repo": SOURCE_REPO, "branch": src_branch,
                                    "headSha": head_sha, "issues": len(issues), "prs": len(prs)}},
         "owners": plan["owners"], "statusFlow": plan["statusFlow"],
+        "deliveryPolicy": plan.get("deliveryPolicy", {}),
+        "professionalLanes": plan.get("professionalLanes", []),
         "waves": plan["waves"], "gates": gates_out, "tasks": tasks_out,
         "atomicIssues": sorted(atomic_out, key=lambda a: a["id"]),
         "log": [], "_changes": changes,
@@ -291,8 +293,16 @@ def run_sync():
             if oldg.get(g["id"], {}).get("status") != g["status"]:
                 board["_changes"].append(f"{g['id']}: {oldg.get(g['id'],{}).get('status','—')}→{g['status']}")
     if board["_changes"]:
-        log.append({"at": now, "by": "GitHub 同步", "what": "；".join(board["_changes"])})
-    board["log"] = log[-200:]
+        entry = {"at": now, "by": "GitHub 同步", "what": "；".join(board["_changes"])}
+        if not log or log[-1].get("what") != entry["what"] or log[-1].get("by") != entry["by"]:
+            log.append(entry)
+    compact_log = []
+    for entry in log:
+        if compact_log and compact_log[-1].get("what") == entry.get("what") and compact_log[-1].get("by") == entry.get("by"):
+            compact_log[-1] = entry
+        else:
+            compact_log.append(entry)
+    board["log"] = compact_log[-200:]
     del board["_changes"]
 
     if not issues:
