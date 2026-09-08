@@ -7,7 +7,7 @@
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-08",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-08 08:34",
+    "syncedAt": "2026-09-08 08:56",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
@@ -16,7 +16,7 @@
       "issues": 6,
       "prs": 1
     },
-    "syncedAtISO": "2026-09-08T00:35:04.736414+00:00"
+    "syncedAtISO": "2026-09-08T00:56:58.710004+00:00"
   },
   "owners": [
     "敏敏",
