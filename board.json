@@ -7,16 +7,16 @@
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-08",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-08 09:48",
+    "syncedAt": "2026-09-08 10:11",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
       "branch": "codex/wave0-integration",
       "headSha": "8acd3fc554f6f35a3add119980869bbdb857faa8",
-      "issues": 6,
+      "issues": 7,
       "prs": 1
     },
-    "syncedAtISO": "2026-09-08T01:48:29.784528+00:00"
+    "syncedAtISO": "2026-09-08T02:11:51.389174+00:00"
   },
   "owners": [
     "敏敏",
@@ -1392,6 +1392,13 @@
       "owner": "敏敏",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/7",
       "prUrl": null
+    },
+    {
+      "id": "F0-FE-04",
+      "status": "READY_FOR_REVIEW",
+      "owner": "敏敏",
+      "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/8",
+      "prUrl": null
     }
   ],
   "log": [
@@ -1433,9 +1440,9 @@
     },
     "updatedAt": "2026-09-08T09:46:24+08:00",
     "sampleCommit": "8c94d391639276b69e7f0023db195cc0a3e411d3",
-    "recordCommit": "6bd08ea8a925d767ae902abf894e742e367c53d6",
+    "recordCommit": "91bd6d6d06bb7ab4035e216db1bb490a94955ce2",
     "sampleUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/commit/8c94d391639276b69e7f0023db195cc0a3e411d3",
-    "recordUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/blob/6bd08ea8a925d767ae902abf894e742e367c53d6/status/board-preparation.json",
+    "recordUrl": "https://github.com/mingminwang962-eng/wuxiaokong-work/blob/91bd6d6d06bb7ab4035e216db1bb490a94955ce2/status/board-preparation.json",
     "events": [
       {
         "at": "2026-09-07T21:37:59+08:00",
