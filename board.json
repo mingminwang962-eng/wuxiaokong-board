@@ -7,16 +7,16 @@
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-14",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-14 09:01",
+    "syncedAt": "2026-09-14 23:10",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
       "branch": "codex/wave0-integration",
-      "headSha": "8acd3fc554f6f35a3add119980869bbdb857faa8",
-      "issues": 18,
+      "headSha": "e1f58fd0fbe82b5ce5bb926c54de3c14522a1492",
+      "issues": 23,
       "prs": 1
     },
-    "syncedAtISO": "2026-09-14T01:01:50.269012+00:00"
+    "syncedAtISO": "2026-09-14T15:10:54.306471+00:00"
   },
   "owners": [
     "敏敏",
@@ -1387,8 +1387,22 @@
       "prUrl": null
     },
     {
+      "id": "BE-C04",
+      "status": "READY_FOR_REVIEW",
+      "owner": null,
+      "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/22",
+      "prUrl": null
+    },
+    {
+      "id": "BE-C05",
+      "status": "READY_FOR_REVIEW",
+      "owner": null,
+      "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/23",
+      "prUrl": null
+    },
+    {
       "id": "BE-C06",
-      "status": "TRIAGED",
+      "status": "READY_FOR_REVIEW",
       "owner": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/17",
       "prUrl": null
@@ -1402,7 +1416,7 @@
     },
     {
       "id": "C-FE-04",
-      "status": "TRIAGED",
+      "status": "READY_FOR_REVIEW",
       "owner": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/18",
       "prUrl": null
@@ -1412,6 +1426,13 @@
       "status": "READY_FOR_REVIEW",
       "owner": "敏敏",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/9",
+      "prUrl": null
+    },
+    {
+      "id": "DB-02",
+      "status": "READY_FOR_REVIEW",
+      "owner": null,
+      "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/21",
       "prUrl": null
     },
     {
@@ -1451,16 +1472,23 @@
     },
     {
       "id": "K-01",
-      "status": "TRIAGED",
+      "status": "READY_FOR_REVIEW",
       "owner": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/14",
       "prUrl": null
     },
     {
       "id": "K-03",
-      "status": "TRIAGED",
+      "status": "READY_FOR_REVIEW",
       "owner": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/19",
+      "prUrl": null
+    },
+    {
+      "id": "K-04",
+      "status": "TRIAGED",
+      "owner": null,
+      "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/24",
       "prUrl": null
     }
   ],
