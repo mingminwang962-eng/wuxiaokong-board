@@ -23,7 +23,7 @@
 
 ## 当前同步方式
 
-已使用本机 Codex 当前任务的心跳调度，每 20 分钟同步一次。不要重复建立 cron、launchd 或 GitHub Actions。需要本机 Codex 和网络可用；页面每 60 秒检查发布快照，超过 45 分钟未同步会提示。
+已使用本机 Codex 当前任务的心跳调度，每 15 分钟同步一次。不要重复建立 cron、launchd 或 GitHub Actions。需要本机 Codex 和网络可用；页面每 60 秒检查发布快照，超过 45 分钟未同步会提示。
 
 执行目录 `/Users/minmin/Documents/wuxiaokong-board`。先检查工作树；干净时 `git pull --ff-only`，再运行 `python3 -B sync_board.py --publish`。有人工改动或分支分歧先保留现场，不强制覆盖。脚本只提交 `board.json`、`dist/index.html`、`index.html`；读取失败保留旧快照。定时任务不使用 `--apply-labels`，不写 Issue 评论，不进行施工操作。
 

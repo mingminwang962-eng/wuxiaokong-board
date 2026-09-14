@@ -43,8 +43,8 @@
       "非实施者核对实际差异、反例、测试和证据",
       "适用检查与证据齐全后，由负责人决定合并"
     ],
-    "remotePushStatus": "HOLD",
-    "temporaryException": "两套 Vercel 项目尚未排除 codex/* 自动部署。F0-FE-02、F0-FE-03 暂以固定本地提交和可校验 Bundle 交接；关闭自动部署或明确接受部署失败后，再推送分支并创建 PR。",
+    "remotePushStatus": "受控允许",
+    "temporaryException": "两个 Vercel 项目已与 GitHub 解除连接，历史部署仅留档；当前正式发布链为腾讯云 staging/服务器流程。任务在固定基线、写面、独立复核人和验收命令明确后，可推送各自施工分支并创建审查 PR；推送或 PR 不代表合并、staging 或部署授权。",
     "protectionNote": "当前两个私有仓 main 均无分支保护；免费条件下以非实施者复核、实际测试证据和负责人合并记录作为人工门禁。"
   },
   "professionalLanes": [
