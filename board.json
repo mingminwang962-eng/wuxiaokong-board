@@ -16,7 +16,7 @@
       "issues": 37,
       "prs": 7
     },
-    "syncedAtISO": "2026-09-14T17:57:08.284696+00:00"
+    "syncedAtISO": "2026-09-14T17:58:06.183066+00:00"
   },
   "owners": [
     "敏敏",
@@ -273,8 +273,8 @@
       "deps": [],
       "critical": false,
       "owner": null,
-      "reviewer": null,
-      "status": "READY_FOR_REVIEW",
+      "reviewer": "夏天",
+      "status": "READY_FOR_GATE",
       "blocker": "",
       "note": "",
       "claimedAt": null,
@@ -1583,6 +1583,11 @@
       "at": "2026-09-15 01:53",
       "by": "GitHub 同步",
       "what": "T03.1: 状态 PLANNED→BLOCKED"
+    },
+    {
+      "at": "2026-09-15 01:57",
+      "by": "GitHub 同步",
+      "what": "T00.2: 状态 READY_FOR_REVIEW→READY_FOR_GATE"
     }
   ],
   "preparation": {
