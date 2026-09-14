@@ -7,7 +7,7 @@
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-14",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-14 23:19",
+    "syncedAt": "2026-09-14 23:20",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
@@ -16,7 +16,7 @@
       "issues": 24,
       "prs": 1
     },
-    "syncedAtISO": "2026-09-14T15:19:15.344967+00:00"
+    "syncedAtISO": "2026-09-14T15:21:05.344833+00:00"
   },
   "owners": [
     "敏敏",
@@ -251,12 +251,12 @@
       "p": "P110/P115/P165/P175",
       "deps": [],
       "critical": true,
-      "owner": null,
+      "owner": "敏敏",
       "reviewer": null,
       "status": "READY_FOR_REVIEW",
       "blocker": "",
       "note": "",
-      "claimedAt": null,
+      "claimedAt": "2026-09-14",
       "doneAt": null,
       "blockedAt": null,
       "ghIssue": 25,
@@ -1527,6 +1527,11 @@
       "at": "2026-09-14 23:19",
       "by": "GitHub 同步",
       "what": "T00.1: 状态 PLANNED→READY_FOR_REVIEW"
+    },
+    {
+      "at": "2026-09-14 23:20",
+      "by": "GitHub 同步",
+      "what": "T00.1: 认领人→敏敏"
     }
   ],
   "preparation": {
