@@ -7,16 +7,16 @@
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-15",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-15 01:39",
+    "syncedAt": "2026-09-15 01:52",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
       "branch": "codex/wave0-integration",
       "headSha": "e1f58fd0fbe82b5ce5bb926c54de3c14522a1492",
-      "issues": 33,
-      "prs": 4
+      "issues": 35,
+      "prs": 6
     },
-    "syncedAtISO": "2026-09-14T17:40:02.490735+00:00"
+    "syncedAtISO": "2026-09-14T17:52:32.949408+00:00"
   },
   "owners": [
     "敏敏",
@@ -954,13 +954,13 @@
       "critical": false,
       "owner": null,
       "reviewer": null,
-      "status": "PLANNED",
+      "status": "READY_FOR_REVIEW",
       "blocker": "",
-      "note": "父工作包尚未建单；草稿审核进度见上方，不代表可认领施工。",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null,
+      "ghIssue": 40,
       "flags": [],
       "updatedAt": "2026-09-15"
     },
@@ -1097,13 +1097,13 @@
       "critical": false,
       "owner": null,
       "reviewer": null,
-      "status": "PLANNED",
+      "status": "READY_FOR_REVIEW",
       "blocker": "",
-      "note": "父工作包尚未建单；草稿审核进度见上方，不代表可认领施工。",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null,
+      "ghIssue": 38,
       "flags": [],
       "updatedAt": "2026-09-15"
     },
@@ -1573,6 +1573,11 @@
       "at": "2026-09-15 01:39",
       "by": "GitHub 同步",
       "what": "T01.3: 状态 PLANNED→BLOCKED，认领人→敏敏"
+    },
+    {
+      "at": "2026-09-15 01:52",
+      "by": "GitHub 同步",
+      "what": "T05.1: 状态 PLANNED→READY_FOR_REVIEW；T06.1: 状态 PLANNED→READY_FOR_REVIEW"
     }
   ],
   "preparation": {
