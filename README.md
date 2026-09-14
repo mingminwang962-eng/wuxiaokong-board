@@ -56,7 +56,7 @@
 - 准备事实源：私有仓 `mingminwang962-eng/wuxiaokong-work` 的 `status/board-preparation.json`。完成修订、收到审核或转出任务时，由经办人按实际记录更新并提交；同步器不会猜测审核结论。
 - `preparation.py` 只公开固定阶段、数量、时间、提交链接；私有文档正文和任意附加字段不会进入公开页面。
 - 正式施工事实源：`lyx680805-first/ip-system-runtime` 的 Issue/PR。无 Issue 显示 `PLANNED`，未分配 Issue 没有 `status:ready` 时显示 `TRIAGED`。
-- 本机 Codex 心跳任务每 20 分钟运行 `python3 -B sync_board.py --publish`，使用已有 gh 登录态。需要本机 Codex 可运行且网络正常；这不是云端常驻服务。
+- 本机 Codex 心跳任务每 15 分钟运行 `python3 -B sync_board.py --publish`，使用已有 gh 登录态。需要本机 Codex 可运行且网络正常；这不是云端常驻服务。
 - 页面每 60 秒读取最新已发布 `board.json`；返回前台或点击「刷新看板」也会检查。GitHub Pages 发布可能另有短暂延迟。
 - 显示同步时间，超过 45 分钟提示过期。拉取失败保留旧页面；网页读取失败保留当前快照。
 - 同步有本机文件锁；自动提交只允许三个生成文件，不顺带提交人工修改。
