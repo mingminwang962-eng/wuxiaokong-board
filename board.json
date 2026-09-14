@@ -7,16 +7,16 @@
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-14",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-14 23:20",
+    "syncedAt": "2026-09-14 23:23",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
       "branch": "codex/wave0-integration",
       "headSha": "e1f58fd0fbe82b5ce5bb926c54de3c14522a1492",
-      "issues": 24,
+      "issues": 25,
       "prs": 1
     },
-    "syncedAtISO": "2026-09-14T15:21:05.344833+00:00"
+    "syncedAtISO": "2026-09-14T15:23:54.109020+00:00"
   },
   "owners": [
     "敏敏",
@@ -364,15 +364,15 @@
         "T00.1"
       ],
       "critical": true,
-      "owner": null,
+      "owner": "敏敏",
       "reviewer": null,
-      "status": "PLANNED",
+      "status": "BLOCKED",
       "blocker": "",
-      "note": "父工作包尚未建单；草稿审核进度见上方，不代表可认领施工。",
-      "claimedAt": null,
+      "note": "",
+      "claimedAt": "2026-09-14",
       "doneAt": null,
-      "blockedAt": null,
-      "ghIssue": null,
+      "blockedAt": "2026-09-14",
+      "ghIssue": 26,
       "flags": [],
       "updatedAt": "2026-09-14"
     },
@@ -1532,6 +1532,11 @@
       "at": "2026-09-14 23:20",
       "by": "GitHub 同步",
       "what": "T00.1: 认领人→敏敏"
+    },
+    {
+      "at": "2026-09-14 23:23",
+      "by": "GitHub 同步",
+      "what": "T00.6: 状态 PLANNED→BLOCKED，认领人→敏敏"
     }
   ],
   "preparation": {
