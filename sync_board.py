@@ -198,10 +198,15 @@ def build_board(plan, people, issues, prs, head_sha, today, now, src_branch="mai
             t["status"] = t["status"] or "READY"
             continue
         ok = all((tmap[d]["status"] == "DONE") if d in tmap else (gmap.get(d) == "PASS") for d in deps)
+        waiting = [d for d in deps if not ((tmap[d]["status"] == "DONE") if d in tmap else (gmap.get(d) == "PASS"))]
+        # A task card may already declare BLOCKED.  Retain that authoritative
+        # state, but still show the plan's concrete unmet dependencies.
+        if t["status"] == "BLOCKED" and waiting:
+            t["blocker"] = "等 " + "、".join(waiting)
+            continue
         if t["status"] is None:
             t["status"] = "READY" if ok else "BLOCKED"
             if not ok:
-                waiting = [d for d in deps if not ((tmap[d]["status"] == "DONE") if d in tmap else (gmap.get(d) == "PASS"))]
                 t["blocker"] = "等 " + "、".join(waiting)
 
     # Only registered atomic IDs are projected; private Issue bodies stay private.
