@@ -292,7 +292,8 @@ def run_sync():
         for g in board["gates"]:
             if oldg.get(g["id"], {}).get("status") != g["status"]:
                 board["_changes"].append(f"{g['id']}: {oldg.get(g['id'],{}).get('status','—')}→{g['status']}")
-    if board["_changes"]:
+    had_changes = bool(board["_changes"])
+    if had_changes:
         entry = {"at": now, "by": "GitHub 同步", "what": "；".join(board["_changes"])}
         if not log or log[-1].get("what") != entry["what"] or log[-1].get("by") != entry["by"]:
             log.append(entry)
@@ -324,8 +325,8 @@ def run_sync():
                 gh("issue", "edit", str(g["ghIssue"]), "-R", SOURCE_REPO, "--remove-label", "gate:pass", check=False)
                 print(f"机器摘除 {g['id']} gate:pass（条件不再满足）")
 
-    print("变更：" if board["log"] and board["log"][-1]["by"] == "GitHub 同步" else "无状态变化。")
-    if board["log"] and board["log"][-1]["by"] == "GitHub 同步":
+    print("变更：" if had_changes else "无状态变化。")
+    if had_changes:
         print(" - " + board["log"][-1]["what"])
     if dry:
         print("--dry-run，未写文件"); return
