@@ -249,6 +249,24 @@ def gate_eligibility(board):
         eligible[gid] = ok
     return eligible
 
+def describe_atomic_changes(old_atomic, new_atomic):
+    """Return concise, public-safe change records for registered atomic Issues."""
+    previous = {item["id"]: item for item in old_atomic or []}
+    changes = []
+    for item in new_atomic or []:
+        before = previous.get(item["id"])
+        if before is None:
+            changes.append(f"{item['id']}: 已登记为 {item['status']}")
+            continue
+        diff = []
+        if before.get("status") != item.get("status"):
+            diff.append(f"状态 {before.get('status', '—')}→{item.get('status', '—')}")
+        if before.get("owner") != item.get("owner") and item.get("owner"):
+            diff.append(f"认领人→{item['owner']}")
+        if diff:
+            changes.append(f"{item['id']}: {'，'.join(diff)}")
+    return changes
+
 def run_sync():
     argv = sys.argv[1:]
     if "--selftest" in argv:
@@ -292,6 +310,7 @@ def run_sync():
         for g in board["gates"]:
             if oldg.get(g["id"], {}).get("status") != g["status"]:
                 board["_changes"].append(f"{g['id']}: {oldg.get(g['id'],{}).get('status','—')}→{g['status']}")
+        board["_changes"].extend(describe_atomic_changes(old.get("atomicIssues"), board.get("atomicIssues")))
     had_changes = bool(board["_changes"])
     if had_changes:
         entry = {"at": now, "by": "GitHub 同步", "what": "；".join(board["_changes"])}
@@ -393,6 +412,15 @@ def selftest():
     cases.append(("候选变化旧 PASS 自动失效", g == "HOLD"))
     g, _ = decide_gate({"state": "OPEN", "labels": [{"name": "gate:pass"}], "candidateComment": "candidate:abc1234"}, "abc1234def")
     cases.append(("机器标签+候选一致才 PASS", g == "PASS"))
+    atomic_diff = describe_atomic_changes(
+        [{"id": "BE-X", "status": "BLOCKED", "owner": "敏敏"}],
+        [{"id": "BE-X", "status": "IN_PROGRESS", "owner": "夏天"},
+         {"id": "BE-Y", "status": "BLOCKED", "owner": "敏敏"}]
+    )
+    cases.append(("原子任务新增和状态变化写入同步日志", atomic_diff == [
+        "BE-X: 状态 BLOCKED→IN_PROGRESS，认领人→夏天",
+        "BE-Y: 已登记为 BLOCKED"
+    ]))
     failed = [name for name, ok in cases if not ok]
     for name, ok in cases:
         print(("✓" if ok else "✗"), name)
