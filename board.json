@@ -7,7 +7,7 @@
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-15",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-15 11:16",
+    "syncedAt": "2026-09-15 11:17",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
@@ -16,7 +16,7 @@
       "issues": 47,
       "prs": 12
     },
-    "syncedAtISO": "2026-09-15T03:16:06.064212+00:00"
+    "syncedAtISO": "2026-09-15T03:17:34.847020+00:00"
   },
   "owners": [
     "敏敏",
@@ -1376,6 +1376,7 @@
       "id": "BE-C01",
       "status": "BLOCKED",
       "owner": null,
+      "reviewer": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/10",
       "prUrl": null
     },
@@ -1383,6 +1384,7 @@
       "id": "BE-C02",
       "status": "BLOCKED",
       "owner": null,
+      "reviewer": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/11",
       "prUrl": null
     },
@@ -1390,6 +1392,7 @@
       "id": "BE-C03",
       "status": "READY_FOR_REVIEW",
       "owner": null,
+      "reviewer": "夏天",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/28",
       "prUrl": null
     },
@@ -1397,6 +1400,7 @@
       "id": "BE-C04",
       "status": "READY_FOR_REVIEW",
       "owner": null,
+      "reviewer": "夏天",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/22",
       "prUrl": null
     },
@@ -1404,6 +1408,7 @@
       "id": "BE-C05",
       "status": "READY_FOR_REVIEW",
       "owner": null,
+      "reviewer": "夏天",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/23",
       "prUrl": null
     },
@@ -1411,6 +1416,7 @@
       "id": "BE-C06",
       "status": "READY_FOR_REVIEW",
       "owner": "敏敏",
+      "reviewer": "夏天",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/17",
       "prUrl": "https://github.com/lyx680805-first/ip-system-runtime/pull/59"
     },
@@ -1418,6 +1424,7 @@
       "id": "BE-C07",
       "status": "READY_FOR_REVIEW",
       "owner": "敏敏",
+      "reviewer": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/35",
       "prUrl": "https://github.com/lyx680805-first/ip-system-runtime/pull/48"
     },
@@ -1425,6 +1432,7 @@
       "id": "BE-C08",
       "status": "READY_FOR_GATE",
       "owner": null,
+      "reviewer": "夏天",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/47",
       "prUrl": null
     },
@@ -1432,6 +1440,7 @@
       "id": "BE-I01",
       "status": "READY_FOR_REVIEW",
       "owner": null,
+      "reviewer": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/16",
       "prUrl": null
     },
@@ -1439,6 +1448,7 @@
       "id": "BE-I02",
       "status": "BLOCKED",
       "owner": null,
+      "reviewer": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/27",
       "prUrl": null
     },
@@ -1446,6 +1456,7 @@
       "id": "BE-I04",
       "status": "BLOCKED",
       "owner": "敏敏",
+      "reviewer": "夏天",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/52",
       "prUrl": null
     },
@@ -1453,6 +1464,7 @@
       "id": "BE-I07",
       "status": "BLOCKED",
       "owner": "敏敏",
+      "reviewer": "夏天",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/53",
       "prUrl": null
     },
@@ -1460,6 +1472,7 @@
       "id": "BE-I10",
       "status": "BLOCKED",
       "owner": "敏敏",
+      "reviewer": "夏天",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/54",
       "prUrl": null
     },
@@ -1467,6 +1480,7 @@
       "id": "BE-I12",
       "status": "BLOCKED",
       "owner": "夏天",
+      "reviewer": "敏敏",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/55",
       "prUrl": null
     },
@@ -1474,6 +1488,7 @@
       "id": "BE-I14",
       "status": "BLOCKED",
       "owner": "夏天",
+      "reviewer": "敏敏",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/56",
       "prUrl": null
     },
@@ -1481,6 +1496,7 @@
       "id": "BE-I15",
       "status": "BLOCKED",
       "owner": "夏天",
+      "reviewer": "敏敏",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/57",
       "prUrl": null
     },
@@ -1488,6 +1504,7 @@
       "id": "C-FE-04",
       "status": "READY_FOR_REVIEW",
       "owner": null,
+      "reviewer": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/18",
       "prUrl": null
     },
@@ -1495,6 +1512,7 @@
       "id": "DB-01",
       "status": "READY_FOR_REVIEW",
       "owner": "敏敏",
+      "reviewer": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/9",
       "prUrl": null
     },
@@ -1502,6 +1520,7 @@
       "id": "DB-02",
       "status": "READY_FOR_REVIEW",
       "owner": null,
+      "reviewer": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/21",
       "prUrl": null
     },
@@ -1509,6 +1528,7 @@
       "id": "DB-03",
       "status": "READY_FOR_REVIEW",
       "owner": null,
+      "reviewer": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/13",
       "prUrl": null
     },
@@ -1516,6 +1536,7 @@
       "id": "F0-FE-01",
       "status": "READY_FOR_REVIEW",
       "owner": "敏敏",
+      "reviewer": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/4",
       "prUrl": "https://github.com/lyx680805-first/ip-system-runtime/pull/5"
     },
@@ -1523,6 +1544,7 @@
       "id": "F0-FE-02",
       "status": "READY_FOR_REVIEW",
       "owner": "夏天",
+      "reviewer": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/6",
       "prUrl": null
     },
@@ -1530,6 +1552,7 @@
       "id": "F0-FE-03",
       "status": "READY_FOR_GATE",
       "owner": "敏敏",
+      "reviewer": "夏天",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/7",
       "prUrl": "https://github.com/lyx680805-first/ip-system-runtime/pull/29"
     },
@@ -1537,6 +1560,7 @@
       "id": "F0-FE-04",
       "status": "READY_FOR_GATE",
       "owner": "敏敏",
+      "reviewer": "夏天",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/8",
       "prUrl": "https://github.com/lyx680805-first/ip-system-runtime/pull/30"
     },
@@ -1544,6 +1568,7 @@
       "id": "K-01",
       "status": "READY_FOR_REVIEW",
       "owner": null,
+      "reviewer": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/14",
       "prUrl": null
     },
@@ -1551,6 +1576,7 @@
       "id": "K-03",
       "status": "READY_FOR_REVIEW",
       "owner": null,
+      "reviewer": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/19",
       "prUrl": null
     },
@@ -1558,6 +1584,7 @@
       "id": "K-04",
       "status": "BLOCKED",
       "owner": null,
+      "reviewer": null,
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/24",
       "prUrl": null
     }
@@ -1647,6 +1674,11 @@
       "at": "2026-09-15 11:05",
       "by": "GitHub 同步",
       "what": "BE-C06: 认领人→敏敏"
+    },
+    {
+      "at": "2026-09-15 11:17",
+      "by": "GitHub 同步",
+      "what": "BE-C03: 审核人→夏天；BE-C04: 审核人→夏天；BE-C05: 审核人→夏天；BE-C06: 审核人→夏天；BE-C08: 审核人→夏天；BE-I04: 审核人→夏天；BE-I07: 审核人→夏天；BE-I10: 审核人→夏天；BE-I12: 审核人→敏敏；BE-I14: 审核人→敏敏；BE-I15: 审核人→敏敏；F0-FE-03: 审核人→夏天；F0-FE-04: 审核人→夏天"
     }
   ],
   "preparation": {
