@@ -7,16 +7,16 @@
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-15",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-15 10:42",
+    "syncedAt": "2026-09-15 11:05",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
       "branch": "codex/wave0-integration",
       "headSha": "e1f58fd0fbe82b5ce5bb926c54de3c14522a1492",
       "issues": 47,
-      "prs": 11
+      "prs": 12
     },
-    "syncedAtISO": "2026-09-15T02:42:42.795508+00:00"
+    "syncedAtISO": "2026-09-15T03:05:48.107189+00:00"
   },
   "owners": [
     "敏敏",
@@ -1410,9 +1410,9 @@
     {
       "id": "BE-C06",
       "status": "READY_FOR_REVIEW",
-      "owner": null,
+      "owner": "敏敏",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/17",
-      "prUrl": null
+      "prUrl": "https://github.com/lyx680805-first/ip-system-runtime/pull/59"
     },
     {
       "id": "BE-C07",
@@ -1642,6 +1642,11 @@
       "at": "2026-09-15 10:42",
       "by": "GitHub 同步",
       "what": "T01.3: 状态 BLOCKED→READY_FOR_REVIEW；T01.5: 状态 PLANNED→READY_FOR_REVIEW；T01.6: 状态 PLANNED→BLOCKED，认领人→敏敏"
+    },
+    {
+      "at": "2026-09-15 11:05",
+      "by": "GitHub 同步",
+      "what": "BE-C06: 认领人→敏敏"
     }
   ],
   "preparation": {
