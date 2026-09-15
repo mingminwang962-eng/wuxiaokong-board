@@ -213,8 +213,9 @@ def build_board(plan, people, issues, prs, head_sha, today, now, src_branch="mai
             continue
         task_id = match.group(1)
         related = next((p for p in prs if p["title"].startswith("[" + task_id + "]")), None)
-        status, owner, _, _, _ = decide_task(it, related, people)
+        status, owner, reviewer, _, _ = decide_task(it, related, people)
         atomic_out.append({"id": task_id, "status": status, "owner": owner,
+                           "reviewer": reviewer,
                            "issueUrl": f"https://github.com/{SOURCE_REPO}/issues/{it['number']}",
                            "prUrl": f"https://github.com/{SOURCE_REPO}/pull/{related['number']}" if related else None})
 
@@ -263,6 +264,8 @@ def describe_atomic_changes(old_atomic, new_atomic):
             diff.append(f"状态 {before.get('status', '—')}→{item.get('status', '—')}")
         if before.get("owner") != item.get("owner") and item.get("owner"):
             diff.append(f"认领人→{item['owner']}")
+        if before.get("reviewer") != item.get("reviewer") and item.get("reviewer"):
+            diff.append(f"审核人→{item['reviewer']}")
         if diff:
             changes.append(f"{item['id']}: {'，'.join(diff)}")
     return changes
@@ -305,6 +308,7 @@ def run_sync():
             diff = []
             if o.get("status") != t["status"]: diff.append(f"状态 {o.get('status','—')}→{t['status']}")
             if o.get("owner") != t["owner"] and t["owner"]: diff.append(f"认领人→{t['owner']}")
+            if o.get("reviewer") != t["reviewer"] and t["reviewer"]: diff.append(f"审核人→{t['reviewer']}")
             if diff: changes = f"{t['id']}: {'，'.join(diff)}"; board["_changes"].append(changes)
         oldg = {g["id"]: g for g in old.get("gates", [])}
         for g in board["gates"]:
@@ -413,12 +417,12 @@ def selftest():
     g, _ = decide_gate({"state": "OPEN", "labels": [{"name": "gate:pass"}], "candidateComment": "candidate:abc1234"}, "abc1234def")
     cases.append(("机器标签+候选一致才 PASS", g == "PASS"))
     atomic_diff = describe_atomic_changes(
-        [{"id": "BE-X", "status": "BLOCKED", "owner": "敏敏"}],
-        [{"id": "BE-X", "status": "IN_PROGRESS", "owner": "夏天"},
+        [{"id": "BE-X", "status": "BLOCKED", "owner": "敏敏", "reviewer": "夏天"}],
+        [{"id": "BE-X", "status": "IN_PROGRESS", "owner": "夏天", "reviewer": "敏敏"},
          {"id": "BE-Y", "status": "BLOCKED", "owner": "敏敏"}]
     )
     cases.append(("原子任务新增和状态变化写入同步日志", atomic_diff == [
-        "BE-X: 状态 BLOCKED→IN_PROGRESS，认领人→夏天",
+        "BE-X: 状态 BLOCKED→IN_PROGRESS，认领人→夏天，审核人→敏敏",
         "BE-Y: 已登记为 BLOCKED"
     ]))
     failed = [name for name, ok in cases if not ok]
