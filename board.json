@@ -2,21 +2,21 @@
   "meta": {
     "plan": "悟小空系统修复实施计划与项目作战图 v1.2（夏天确认版）",
     "planSource": "https://rn2s4p4tez.feishu.cn/docx/UBKvdGaCRokXuJx3NcPcy4wBnEg",
-    "boardVersion": "2.0.0",
+    "boardVersion": "2.0.1",
     "baselineSha": "8acd3fc554f6f35a3add119980869bbdb857faa8（2026-09-07 系统所有者批准：统一施工起点；main 不整分支合并，5 个独有提交价值转任务迁入）",
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-15",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-15 09:04",
+    "syncedAt": "2026-09-15 10:42",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
       "branch": "codex/wave0-integration",
       "headSha": "e1f58fd0fbe82b5ce5bb926c54de3c14522a1492",
-      "issues": 39,
-      "prs": 9
+      "issues": 47,
+      "prs": 11
     },
-    "syncedAtISO": "2026-09-15T01:04:48.062033+00:00"
+    "syncedAtISO": "2026-09-15T02:42:42.795508+00:00"
   },
   "owners": [
     "敏敏",
@@ -43,8 +43,8 @@
       "非实施者核对实际差异、反例、测试和证据",
       "适用检查与证据齐全后，由负责人决定合并"
     ],
-    "remotePushStatus": "HOLD",
-    "temporaryException": "两套 Vercel 项目尚未排除 codex/* 自动部署。F0-FE-02、F0-FE-03 暂以固定本地提交和可校验 Bundle 交接；关闭自动部署或明确接受部署失败后，再推送分支并创建 PR。",
+    "remotePushStatus": "受控允许",
+    "temporaryException": "ip-system 与 ip-system-runtime 已解除 GitHub 连接；Vercel 项目和历史部署只作历史证据，不再承担自动部署或作为当前发布、合并前置。施工分支仍须按任务卡范围受控推送；合并、腾讯云 staging/服务器发布须依各卡门禁和另行授权。",
     "protectionNote": "当前两个私有仓 main 均无分支保护；免费条件下以非实施者复核、实际测试证据和负责人合并记录作为人工门禁。"
   },
   "professionalLanes": [
@@ -435,12 +435,12 @@
       "critical": false,
       "owner": "敏敏",
       "reviewer": null,
-      "status": "BLOCKED",
+      "status": "READY_FOR_REVIEW",
       "blocker": "",
       "note": "",
       "claimedAt": "2026-09-14",
       "doneAt": null,
-      "blockedAt": "2026-09-15",
+      "blockedAt": null,
       "ghIssue": 37,
       "flags": [],
       "updatedAt": "2026-09-15"
@@ -481,13 +481,13 @@
       "critical": false,
       "owner": null,
       "reviewer": null,
-      "status": "PLANNED",
+      "status": "READY_FOR_REVIEW",
       "blocker": "",
-      "note": "父工作包尚未建单；草稿审核进度见上方，不代表可认领施工。",
+      "note": "",
       "claimedAt": null,
       "doneAt": null,
       "blockedAt": null,
-      "ghIssue": null,
+      "ghIssue": 50,
       "flags": [],
       "updatedAt": "2026-09-15"
     },
@@ -502,15 +502,15 @@
         "T00.5"
       ],
       "critical": false,
-      "owner": null,
-      "reviewer": null,
-      "status": "PLANNED",
+      "owner": "敏敏",
+      "reviewer": "夏天",
+      "status": "BLOCKED",
       "blocker": "",
-      "note": "父工作包尚未建单；草稿审核进度见上方，不代表可认领施工。",
-      "claimedAt": null,
+      "note": "",
+      "claimedAt": "2026-09-15",
       "doneAt": null,
-      "blockedAt": null,
-      "ghIssue": null,
+      "blockedAt": "2026-09-15",
+      "ghIssue": 58,
       "flags": [],
       "updatedAt": "2026-09-15"
     },
@@ -1443,6 +1443,48 @@
       "prUrl": null
     },
     {
+      "id": "BE-I04",
+      "status": "BLOCKED",
+      "owner": "敏敏",
+      "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/52",
+      "prUrl": null
+    },
+    {
+      "id": "BE-I07",
+      "status": "BLOCKED",
+      "owner": "敏敏",
+      "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/53",
+      "prUrl": null
+    },
+    {
+      "id": "BE-I10",
+      "status": "BLOCKED",
+      "owner": "敏敏",
+      "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/54",
+      "prUrl": null
+    },
+    {
+      "id": "BE-I12",
+      "status": "BLOCKED",
+      "owner": "夏天",
+      "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/55",
+      "prUrl": null
+    },
+    {
+      "id": "BE-I14",
+      "status": "BLOCKED",
+      "owner": "夏天",
+      "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/56",
+      "prUrl": null
+    },
+    {
+      "id": "BE-I15",
+      "status": "BLOCKED",
+      "owner": "夏天",
+      "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/57",
+      "prUrl": null
+    },
+    {
       "id": "C-FE-04",
       "status": "READY_FOR_REVIEW",
       "owner": null,
@@ -1595,6 +1637,11 @@
       "at": "2026-09-15 01:57",
       "by": "GitHub 同步",
       "what": "T00.2: 状态 READY_FOR_REVIEW→READY_FOR_GATE"
+    },
+    {
+      "at": "2026-09-15 10:42",
+      "by": "GitHub 同步",
+      "what": "T01.3: 状态 BLOCKED→READY_FOR_REVIEW；T01.5: 状态 PLANNED→READY_FOR_REVIEW；T01.6: 状态 PLANNED→BLOCKED，认领人→敏敏"
     }
   ],
   "preparation": {
