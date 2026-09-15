@@ -7,7 +7,7 @@
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-15",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-15 14:19",
+    "syncedAt": "2026-09-15 14:22",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
@@ -16,7 +16,7 @@
       "issues": 47,
       "prs": 12
     },
-    "syncedAtISO": "2026-09-15T06:19:54.207863+00:00"
+    "syncedAtISO": "2026-09-15T06:22:55.614336+00:00"
   },
   "owners": [
     "敏敏",
@@ -1486,7 +1486,7 @@
     },
     {
       "id": "BE-I14",
-      "status": "BLOCKED",
+      "status": "IN_PROGRESS",
       "owner": "夏天",
       "reviewer": "敏敏",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/56",
@@ -1684,6 +1684,11 @@
       "at": "2026-09-15 14:19",
       "by": "GitHub 同步",
       "what": "BE-I15: 状态 BLOCKED→IN_PROGRESS"
+    },
+    {
+      "at": "2026-09-15 14:22",
+      "by": "GitHub 同步",
+      "what": "BE-I14: 状态 BLOCKED→IN_PROGRESS"
     }
   ],
   "preparation": {
