@@ -333,6 +333,18 @@ def run_sync():
     board["log"] = compact_log[-200:]
     del board["_changes"]
 
+    # 空转同步不应只为刷新时间戳而生成一次 Pages 提交。保留上一版的
+    # 同步时间即可让生成文件保持不变；一旦任一事实字段变化，仍使用本轮时间。
+    if old:
+        previous = json.loads(json.dumps(old))
+        candidate = json.loads(json.dumps(board))
+        for value in (previous, candidate):
+            value.get("meta", {}).pop("syncedAt", None)
+            value.get("meta", {}).pop("syncedAtISO", None)
+        if previous == candidate:
+            board["meta"]["syncedAt"] = old.get("meta", {}).get("syncedAt", board["meta"]["syncedAt"])
+            board["meta"]["syncedAtISO"] = old.get("meta", {}).get("syncedAtISO", board["meta"]["syncedAtISO"])
+
     if not issues:
         print(f"源仓库 {SOURCE_REPO} 暂无任务 Issue，看板为计划初始态（全部待建单）。")
 
