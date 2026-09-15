@@ -191,18 +191,17 @@ def build_board(plan, people, issues, prs, head_sha, today, now, src_branch="mai
         gates_out.append(g)
 
     for t in tasks_out:
-        if t["status"] is not None and t["status"] != "BLOCKED":
-            continue
         deps = t.get("deps") or []
         if not deps:
             t["status"] = t["status"] or "READY"
             continue
         ok = all((tmap[d]["status"] == "DONE") if d in tmap else (gmap.get(d) == "PASS") for d in deps)
         waiting = [d for d in deps if not ((tmap[d]["status"] == "DONE") if d in tmap else (gmap.get(d) == "PASS"))]
-        # A task card may already declare BLOCKED.  Retain that authoritative
-        # state, but still show the plan's concrete unmet dependencies.
-        if t["status"] == "BLOCKED" and waiting:
+        # A task card may already declare BLOCKED, or may not yet have an
+        # Issue. Retain its state, but always expose concrete unmet deps.
+        if t["status"] in {"BLOCKED", "PLANNED"} and waiting:
             t["blocker"] = "等 " + "、".join(waiting)
+        if t["status"] is not None:
             continue
         if t["status"] is None:
             t["status"] = "READY" if ok else "BLOCKED"

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 # render_board.py — 从 board.json 渲染公网版看板 dist/index.html
 # 用法: python3 render_board.py [board.json 路径] [输出路径]
 import json, sys, pathlib
@@ -260,7 +261,7 @@ h+=`<div class="wave"><div class="wave-head"><span class="wn">WAVE ${w.id}</span
 wt.forEach(t=>{
 const dur=t.claimedAt&&t.doneAt?Math.max(0,Math.round((new Date(t.doneAt)-new Date(t.claimedAt))/86400000)):null;
 const times=[t.claimedAt?`认领 ${t.claimedAt}`:'',t.doneAt?`完成 ${t.doneAt}`:'',dur!==null?`耗时 ${dur} 天`:'',t.status==='BLOCKED'&&t.blockedAt?`阻塞自 ${t.blockedAt}`:''].filter(Boolean).join(' · ');
-h+=`<div class="task ${t.critical?'crit':''}" id="task-${t.id}"><span class="tid">${esc(t.id)}</span><span class="tbody"><div class="ttitle">${esc(t.title)}${t.critical?'<span class="crit-tag">◆ 关键路径</span>':''}</div><div class="tmeta">${esc(t.s)} · ${esc(t.p)}${t.deps&&t.deps.length?' · 前置 '+esc(t.deps.join(' ')):""}${t.ghIssue?` · <a class="gh" href="https://github.com/${esc(D.meta.generatedFrom?.repo||'lyx680805-first/ip-system-runtime')}/issues/${t.ghIssue}" target="_blank" rel="noopener noreferrer">#${t.ghIssue} ↗</a>`:''}</div>${times?`<div class="ttime">${esc(times)}</div>`:''}${t.status==='BLOCKED'&&t.blocker?`<div class="tblock">⊘ ${esc(t.blocker)}</div>`:''}${(t.flags||[]).map(f=>`<div class="tblock">⚠ ${esc(f)}</div>`).join('')}${t.note?`<div class="tnote">✎ ${esc(t.note)}</div>`:''}</span><span class="tright"><span class="pill ${t.status}">${SNAME[t.status]||t.status}</span><span class="avatars">${av(t.owner)}${t.reviewer?'审 '+av(t.reviewer):''}${!t.owner?(t.status==='PLANNED'?'未建单':'未分配'):''}</span></span></div>`});
+h+=`<div class="task ${t.critical?'crit':''}" id="task-${t.id}"><span class="tid">${esc(t.id)}</span><span class="tbody"><div class="ttitle">${esc(t.title)}${t.critical?'<span class="crit-tag">◆ 关键路径</span>':''}</div><div class="tmeta">${esc(t.s)} · ${esc(t.p)}${t.deps&&t.deps.length?' · 前置 '+esc(t.deps.join(' ')):""}${t.ghIssue?` · <a class="gh" href="https://github.com/${esc(D.meta.generatedFrom?.repo||'lyx680805-first/ip-system-runtime')}/issues/${t.ghIssue}" target="_blank" rel="noopener noreferrer">#${t.ghIssue} ↗</a>`:''}</div>${times?`<div class="ttime">${esc(times)}</div>`:''}${t.blocker?`<div class="tblock">⊘ ${esc(t.blocker)}</div>`:''}${(t.flags||[]).map(f=>`<div class="tblock">⚠ ${esc(f)}</div>`).join('')}${t.note?`<div class="tnote">✎ ${esc(t.note)}</div>`:''}</span><span class="tright"><span class="pill ${t.status}">${SNAME[t.status]||t.status}</span><span class="avatars">${av(t.owner)}${t.reviewer?'审 '+av(t.reviewer):''}${!t.owner?(t.status==='PLANNED'?'未建单':'未分配'):''}</span></span></div>`});
 h+=`</div>`});
 h+=`</section>`;
 if(D.log&&D.log.length){h+=`<section><h2>变更记录</h2><ul class="log">`;D.log.slice(-10).reverse().forEach(l=>{h+=`<li><b>${esc(l.at)}</b>${esc(l.by)} · ${esc(l.what)}</li>`});h+=`</ul></section>`}
