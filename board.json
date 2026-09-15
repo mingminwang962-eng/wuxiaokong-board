@@ -7,16 +7,16 @@
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权",
     "updatedAt": "2026-09-15",
     "updatedBy": "GitHub 同步（施工记录＋准备状态）",
-    "syncedAt": "2026-09-15 08:54",
+    "syncedAt": "2026-09-15 09:03",
     "currentWave": 0,
     "generatedFrom": {
       "repo": "lyx680805-first/ip-system-runtime",
       "branch": "codex/wave0-integration",
       "headSha": "e1f58fd0fbe82b5ce5bb926c54de3c14522a1492",
       "issues": 39,
-      "prs": 8
+      "prs": 9
     },
-    "syncedAtISO": "2026-09-15T00:54:46.289475+00:00"
+    "syncedAtISO": "2026-09-15T01:03:15.383727+00:00"
   },
   "owners": [
     "敏敏",
@@ -1416,10 +1416,10 @@
     },
     {
       "id": "BE-C07",
-      "status": "BLOCKED",
+      "status": "READY_FOR_REVIEW",
       "owner": "敏敏",
       "issueUrl": "https://github.com/lyx680805-first/ip-system-runtime/issues/35",
-      "prUrl": null
+      "prUrl": "https://github.com/lyx680805-first/ip-system-runtime/pull/48"
     },
     {
       "id": "BE-C08",
