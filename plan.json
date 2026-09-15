@@ -2,7 +2,7 @@
   "meta": {
     "plan": "悟小空系统修复实施计划与项目作战图 v1.2（夏天确认版）",
     "planSource": "https://rn2s4p4tez.feishu.cn/docx/UBKvdGaCRokXuJx3NcPcy4wBnEg",
-    "boardVersion": "2.0.0",
+    "boardVersion": "2.0.1",
     "baselineSha": "8acd3fc554f6f35a3add119980869bbdb857faa8（2026-09-07 系统所有者批准：统一施工起点；main 不整分支合并，5 个独有提交价值转任务迁入）",
     "productionBoundary": "仅到 staging 验收；R10/R11 与一切生产动作保持 HOLD，需系统所有者另行授权"
   },
@@ -19,8 +19,8 @@
       "非实施者核对实际差异、反例、测试和证据",
       "适用检查与证据齐全后，由负责人决定合并"
     ],
-    "remotePushStatus": "HOLD",
-    "temporaryException": "两套 Vercel 项目尚未排除 codex/* 自动部署。F0-FE-02、F0-FE-03 暂以固定本地提交和可校验 Bundle 交接；关闭自动部署或明确接受部署失败后，再推送分支并创建 PR。",
+    "remotePushStatus": "受控允许",
+    "temporaryException": "ip-system 与 ip-system-runtime 已解除 GitHub 连接；Vercel 项目和历史部署只作历史证据，不再承担自动部署或作为当前发布、合并前置。施工分支仍须按任务卡范围受控推送；合并、腾讯云 staging/服务器发布须依各卡门禁和另行授权。",
     "protectionNote": "当前两个私有仓 main 均无分支保护；免费条件下以非实施者复核、实际测试证据和负责人合并记录作为人工门禁。"
   },
   "professionalLanes": [
